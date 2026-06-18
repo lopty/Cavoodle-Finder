@@ -116,7 +116,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "8 weeks",
     status: "Available",
     description: "Teddy is the fluffiest pup in the litter with his rich chocolate and white wavy coat. He's calm, loving, and already sleeping through the night.",
-    imageUrl: "/puppy-brown.webp",
+    imageUrl: "/hero-puppy.png",
   },
   {
     id: "8",
@@ -128,7 +128,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "9 weeks",
     status: "Available",
     description: "Rosie is a confident little girl with a beautiful apricot and white coat. She thrives on affection and is brilliant with young children.",
-    imageUrl: "/puppy-bow.webp",
+    imageUrl: "/about-puppy.png",
   },
   {
     id: "9",
@@ -140,7 +140,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "10 weeks",
     status: "Available",
     description: "Charlie is a bright golden boy with a cheerful, outgoing personality. He's quick to learn new things and gets along with everyone he meets.",
-    imageUrl: "/puppy-plants.webp",
+    imageUrl: "/sleeping-puppy.png",
   },
   {
     id: "10",
@@ -188,7 +188,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "10 weeks",
     status: "Available",
     description: "Cooper is a social butterfly who's never met a stranger. His warm apricot coat and wagging tail will brighten up any household.",
-    imageUrl: "/puppy-plants.webp",
+    imageUrl: "/puppy-brown.webp",
   },
   {
     id: "14",
@@ -212,7 +212,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "9 weeks",
     status: "Available",
     description: "Finn is a chocolatey dreamboat with the kindest eyes. He's easy-going, adores children, and has already won the hearts of everyone he's met.",
-    imageUrl: "/puppy-brown.webp",
+    imageUrl: "/puppy-plants.webp",
   },
 ];
 
@@ -238,7 +238,7 @@ export function useSettings() {
   return { settings, saveSettings };
 }
 
-const PUPPIES_KEY = "purecavoodles_puppies_v3";
+const PUPPIES_KEY = "purecavoodles_puppies_v4";
 
 export function usePuppies() {
   const [puppies, setPuppies] = useState<Puppy[]>(() => {
