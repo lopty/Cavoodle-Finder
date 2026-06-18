@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Pure Cavoodles"
+version = "1.0.0"
+id = "artifacts/pure-cavoodles"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21857
+
+[services.development]
+run = "pnpm --filter @workspace/pure-cavoodles run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/pure-cavoodles", "run", "build" ]
+publicDir = "artifacts/pure-cavoodles/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21857"
+BASE_PATH = "/"

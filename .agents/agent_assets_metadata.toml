@@ -1,0 +1,20 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "6O17ONxMi9S4obGCK-aRJ"
+uri = "file://artifacts/pure-cavoodles/public/hero-puppy.png"
+type = "image"
+title = "Cavoodle puppy hero image"
+
+[[generated]]
+id = "EQ2sBhWpjNIT4YLcsngyI"
+uri = "file://artifacts/pure-cavoodles/public/about-puppy.png"
+type = "image"
+title = "Playful Cavoodle puppy"
+
+[[generated]]
+id = "msj-1vIXoj_7LzO95HtsR"
+uri = "file://artifacts/pure-cavoodles/public/sleeping-puppy.png"
+type = "image"
+title = "Sleeping Cavoodle puppy"
