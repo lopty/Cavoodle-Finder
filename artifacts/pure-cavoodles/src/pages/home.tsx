@@ -34,38 +34,38 @@ export default function Home() {
 
       <main className="flex-1">
         {/* Section 1: Hero */}
-        <section className="relative overflow-hidden" style={{background: "linear-gradient(135deg, #4A2810 0%, #8B4A1A 30%, #C4782A 60%, #E8C170 100%)"}}>
-          <div className="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-10 py-16 md:py-20">
+        <section className="relative overflow-hidden" style={{background: "linear-gradient(135deg, #4A2810 0%, #8B4A1A 30%, #C4782A 65%, #E8C170 100%)"}}>
+          <div className="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-8 py-12 md:py-16">
             {/* Left */}
-            <div className="flex-1 space-y-7 z-20">
-              <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm font-bold px-4 py-2 rounded-full">
-                <PawPrint className="w-4 h-4" />
+            <div className="flex-1 space-y-5 z-20">
+              <div className="inline-flex items-center gap-2 bg-white/15 border border-white/25 text-white/90 text-xs font-semibold px-3 py-1.5 rounded-full tracking-wide">
+                <PawPrint className="w-3.5 h-3.5" />
                 Australia's Premier Cavoodle Breeder
               </div>
-              <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-white">
-                Australia's Most Loved <span className="text-[#FFD580]">Cavoodle Puppies</span>
+              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.1] text-white">
+                Australia's Most Loved <span className="text-[#FFD580] italic">Cavoodle Puppies</span>
               </h1>
-              <p className="text-lg md:text-xl font-medium text-white/85 max-w-xl">
+              <p className="text-base md:text-lg text-white/80 max-w-lg leading-relaxed">
                 Premium F1 & F1b Cavoodles raised with love in a family home. Find your forever companion.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                <Button size="lg" className="rounded-full h-13 px-8 text-base font-bold bg-white text-[#8B4A1A] hover:bg-white/90 shadow-xl border-0" asChild>
-                  <a href="#puppies">View Available Puppies</a>
-                </Button>
-                <Button size="lg" variant="outline" className="rounded-full h-13 px-8 text-base font-bold border-2 border-white/60 text-white hover:bg-white/15 shadow-lg backdrop-blur-sm" asChild>
-                  <a href="#about">Learn About the Breed</a>
-                </Button>
+              <div className="flex flex-wrap gap-3 pt-1">
+                <a href="#puppies" className="inline-flex items-center gap-2 bg-white text-[#8B4A1A] hover:bg-white/92 transition-colors px-5 py-2.5 rounded-full text-sm font-semibold shadow-lg">
+                  View Available Puppies
+                </a>
+                <a href="#about" className="inline-flex items-center gap-2 border border-white/50 text-white hover:bg-white/10 transition-colors px-5 py-2.5 rounded-full text-sm font-semibold">
+                  About the Breed
+                </a>
               </div>
 
-              <div className="flex flex-wrap gap-3 pt-2">
+              <div className="flex flex-wrap gap-2 pt-1">
                 {[
                   { icon: CheckCircle2, label: "500+ Happy Families" },
-                  { icon: ShieldCheck, label: "100% Health Guaranteed" },
-                  { icon: MapPin, label: "Australia-Wide Delivery" },
+                  { icon: ShieldCheck, label: "Health Guaranteed" },
+                  { icon: MapPin, label: "Australia-Wide" },
                 ].map(({ icon: Icon, label }, i) => (
-                  <div key={i} className="bg-white text-[#7C4A1E] px-4 py-2 rounded-full text-sm font-bold shadow-md flex items-center gap-2 border border-white/80">
-                    <Icon className="w-4 h-4 text-[#C4782A]" />
+                  <div key={i} className="bg-white/15 border border-white/20 text-white px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5">
+                    <Icon className="w-3.5 h-3.5 text-[#FFD580]" />
                     {label}
                   </div>
                 ))}
@@ -74,13 +74,12 @@ export default function Home() {
             
             {/* Right — circle puppy portrait */}
             <div className="flex-1 w-full relative z-10 flex items-center justify-center">
-              <div className="relative w-72 h-72 md:w-[420px] md:h-[420px] mx-auto">
-                <div className="absolute inset-0 rounded-full" style={{background: "radial-gradient(circle, #FFD58030 0%, #C4782A20 60%, transparent 80%)", transform: "scale(1.15)"}}></div>
-                <div className="absolute inset-2 rounded-full border-4 border-white/40"></div>
+              <div className="relative w-60 h-60 md:w-[380px] md:h-[380px] mx-auto">
+                <div className="absolute inset-0 rounded-full opacity-30" style={{background: "radial-gradient(circle, #FFD580 0%, transparent 75%)", transform: "scale(1.2)"}}></div>
                 <img 
                   src="/puppy-basket.webp" 
                   alt="Golden Cavoodle puppy"
-                  className="w-full h-full object-cover rounded-full border-8 border-white shadow-2xl"
+                  className="w-full h-full object-cover rounded-full border-[6px] border-white/90 shadow-2xl relative z-10"
                 />
               </div>
             </div>

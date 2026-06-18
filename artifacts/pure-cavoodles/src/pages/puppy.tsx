@@ -136,25 +136,25 @@ export default function PuppyPage() {
                 </div>
 
                 {puppy.status === "Available" ? (
-                  <div className="space-y-4 pt-6 border-t border-border/50">
+                  <div className="space-y-3 pt-5 border-t border-border/50">
                     <Button 
-                      className="w-full h-16 text-lg font-bold bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-2xl shadow-md"
+                      className="w-full h-11 text-sm font-semibold bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-xl shadow-sm"
                       onClick={handleWhatsApp}
                       data-testid="button-wa-enquire"
                     >
-                      <MessageCircle className="w-6 h-6 mr-3" />
+                      <MessageCircle className="w-4 h-4 mr-2" />
                       Enquire via WhatsApp
                     </Button>
                     <EmailEnquiryDialog 
                       puppy={puppy} 
-                      className="w-full h-16 text-lg font-bold bg-primary hover:bg-primary/90 text-white rounded-2xl shadow-md" 
+                      className="w-full h-11 text-sm font-semibold bg-primary hover:bg-primary/90 text-white rounded-xl shadow-sm" 
                     />
                   </div>
                 ) : (
-                  <div className="bg-secondary p-6 rounded-2xl text-center">
-                    <h3 className="font-serif text-2xl font-bold text-foreground mb-2">This puppy is {puppy.status.toLowerCase()}</h3>
-                    <p className="text-foreground/80 font-medium mb-4">Please check our home page for other available puppies or contact us to join the waitlist.</p>
-                    <Button variant="outline" className="border-2 border-primary text-primary font-bold rounded-xl" asChild>
+                  <div className="bg-muted p-5 rounded-xl text-center">
+                    <h3 className="font-serif text-xl text-foreground mb-1">This puppy is {puppy.status.toLowerCase()}</h3>
+                    <p className="text-foreground/70 text-sm mb-4">Check our home page for other available puppies or contact us to join the waitlist.</p>
+                    <Button variant="outline" className="border border-primary text-primary text-sm font-semibold rounded-xl h-9" asChild>
                       <Link href="/">View Available Puppies</Link>
                     </Button>
                   </div>
