@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { usePuppies, useSettings } from "@/lib/data";
 import { PuppyCard } from "@/components/PuppyCard";
 import { Navbar, Footer } from "@/components/layout/Shared";
@@ -177,7 +177,7 @@ export default function Home() {
                   {/* Floating "Ready Now" card */}
                   <div className="absolute -bottom-5 -left-4 md:-left-10 bg-white rounded-2xl shadow-xl px-4 py-3 border border-[#F0E0C8]">
                     <p className="text-[10px] font-semibold text-primary uppercase tracking-wider mb-0.5">Ready Now</p>
-                    <p className="text-sm font-bold text-[#2E1A08]">6 Puppies Available</p>
+                    <p className="text-sm font-bold text-[#2E1A08]">{puppies.filter(p => p.status === "Available").length} Puppies Available</p>
                     <div className="flex mt-1 gap-0.5">
                       {[...Array(5)].map((_, j) => <Star key={j} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
                     </div>
@@ -273,22 +273,12 @@ export default function Home() {
         {/* Section 3: Available Puppies */}
         <section id="puppies" className="py-14 bg-background">
           <div className="container mx-auto px-4 max-w-6xl">
-            <div className="text-center mb-10 space-y-2">
+            <div className="text-center mb-8 space-y-2">
               <span className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase">Litter 2025</span>
-              <h2 className="font-serif text-3xl md:text-5xl text-foreground">Meet Our Available Puppies</h2>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {puppies.map(puppy => (
-                <PuppyCard key={puppy.id} puppy={puppy} />
-              ))}
+              <h2 className="font-serif text-3xl md:text-5xl text-foreground">Meet Our Puppies</h2>
             </div>
 
-            {puppies.length === 0 && (
-              <div className="text-center py-16">
-                <p className="text-base text-muted-foreground">We currently have no puppies listed.</p>
-              </div>
-            )}
+            <PuppiesGrid puppies={puppies} />
 
             <div className="mt-10 max-w-2xl mx-auto bg-secondary/30 border border-secondary/60 p-6 rounded-2xl text-center">
               <h3 className="font-serif text-xl mb-1.5">Don't see what you're looking for?</h3>
@@ -568,6 +558,69 @@ export default function Home() {
       </main>
 
       <Footer />
+    </div>
+  );
+}
+
+/* ── Puppies grid with filter tabs ── */
+const STATUS_ORDER = { Available: 0, Reserved: 1, Sold: 2 } as const;
+
+function PuppiesGrid({ puppies }: { puppies: ReturnType<typeof usePuppies>["puppies"] }) {
+  const [filter, setFilter] = useState<"All" | "Available" | "Reserved" | "Sold">("All");
+
+  const counts = useMemo(() => ({
+    All: puppies.length,
+    Available: puppies.filter(p => p.status === "Available").length,
+    Reserved: puppies.filter(p => p.status === "Reserved").length,
+    Sold: puppies.filter(p => p.status === "Sold").length,
+  }), [puppies]);
+
+  const visible = useMemo(() =>
+    puppies
+      .filter(p => filter === "All" || p.status === filter)
+      .slice()
+      .sort((a, b) => STATUS_ORDER[a.status] - STATUS_ORDER[b.status]),
+    [puppies, filter]
+  );
+
+  const tabs = (["All", "Available", "Reserved", "Sold"] as const).filter(
+    t => t === "All" || counts[t] > 0
+  );
+
+  return (
+    <div>
+      {/* Filter tabs */}
+      <div className="flex flex-wrap gap-2 justify-center mb-8">
+        {tabs.map(tab => (
+          <button
+            key={tab}
+            onClick={() => setFilter(tab)}
+            className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all border ${
+              filter === tab
+                ? "bg-primary text-white border-primary shadow-sm"
+                : "bg-white text-foreground/70 border-border hover:border-primary/50 hover:text-primary"
+            }`}
+          >
+            {tab}
+            <span className={`ml-1.5 text-xs px-1.5 py-0.5 rounded-full ${
+              filter === tab ? "bg-white/25 text-white" : "bg-secondary text-foreground/60"
+            }`}>{counts[tab]}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Grid */}
+      {visible.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {visible.map(puppy => (
+            <PuppyCard key={puppy.id} puppy={puppy} />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-16">
+          <p className="text-base text-muted-foreground">No puppies in this category right now.</p>
+        </div>
+      )}
     </div>
   );
 }
