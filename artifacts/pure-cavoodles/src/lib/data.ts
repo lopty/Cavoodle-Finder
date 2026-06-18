@@ -111,36 +111,36 @@ const DEFAULT_PUPPIES: Puppy[] = [
     name: "Teddy",
     breed: "F1b Cavoodle",
     gender: "Male",
-    color: "Chocolate & White",
+    color: "Silver & Grey",
     price: 5200,
     age: "8 weeks",
     status: "Available",
-    description: "Teddy is the fluffiest pup in the litter with his rich chocolate and white wavy coat. He's calm, loving, and already sleeping through the night.",
-    imageUrl: "/hero-puppy.png",
+    description: "Teddy is a rare silver-grey Cavoodle with the most beautiful curly coat. He's calm, affectionate, and loves nothing more than lounging at your feet.",
+    imageUrl: "/real-puppy-8.png",
   },
   {
     id: "8",
     name: "Rosie",
     breed: "F1 Cavoodle",
     gender: "Female",
-    color: "Apricot & White",
+    color: "Chocolate",
     price: 4700,
     age: "9 weeks",
     status: "Available",
-    description: "Rosie is a confident little girl with a beautiful apricot and white coat. She thrives on affection and is brilliant with young children.",
-    imageUrl: "/about-puppy.png",
+    description: "Rosie is a gorgeous chocolate Cavoodle who loves the outdoors. She's confident, playful, and brilliant with children of all ages.",
+    imageUrl: "/real-puppy-10.png",
   },
   {
     id: "9",
     name: "Charlie",
     breed: "F1 Cavoodle",
     gender: "Male",
-    color: "Golden",
+    color: "Golden & Cream",
     price: 4300,
     age: "10 weeks",
     status: "Available",
-    description: "Charlie is a bright golden boy with a cheerful, outgoing personality. He's quick to learn new things and gets along with everyone he meets.",
-    imageUrl: "/sleeping-puppy.png",
+    description: "Charlie is the most laid-back boy in the litter — already perfectly settled and happy to snooze the day away. A dream puppy for any home.",
+    imageUrl: "/real-puppy-9.png",
   },
   {
     id: "10",
@@ -238,7 +238,7 @@ export function useSettings() {
   return { settings, saveSettings };
 }
 
-const PUPPIES_KEY = "purecavoodles_puppies_v6";
+const PUPPIES_KEY = "purecavoodles_puppies_v7";
 
 export function usePuppies() {
   const [puppies, setPuppies] = useState<Puppy[]>(() => {
