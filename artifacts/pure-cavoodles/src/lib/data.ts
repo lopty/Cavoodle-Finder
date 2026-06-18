@@ -29,8 +29,8 @@ const DEFAULT_SETTINGS: Settings = {
   contactEmail: "info@purecavoodles.com.au",
   adminPassword: "purecavoodles2024",
   formspreeId: "",
-  cloudinaryCloudName: "",
-  cloudinaryUploadPreset: "",
+  cloudinaryCloudName: "dewwocdrp",
+  cloudinaryUploadPreset: "bawfashion",
 };
 
 const DEFAULT_PUPPIES: Puppy[] = [
@@ -112,7 +112,10 @@ export function useSettings() {
   const [settings, setSettings] = useState<Settings>(() => {
     try {
       const stored = localStorage.getItem("purecavoodles_settings");
-      if (stored) return JSON.parse(stored);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        return { ...DEFAULT_SETTINGS, ...parsed };
+      }
     } catch (e) {
       console.error("Failed to load settings", e);
     }
