@@ -68,7 +68,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "10 weeks",
     status: "Available",
     description: "Milo is full of energy and ready for his forever home. His rich ruby red coat and playful personality make him an irresistible companion.",
-    imageUrl: "/puppy-brown.webp",
+    imageUrl: "/real-puppy-6.png",
   },
   {
     id: "4",
@@ -99,12 +99,12 @@ const DEFAULT_PUPPIES: Puppy[] = [
     name: "Sandy",
     breed: "F1 Cavoodle",
     gender: "Female",
-    color: "Apricot",
+    color: "Black",
     price: 4800,
     age: "7 weeks",
     status: "Available",
-    description: "Sandy is a calm and gentle puppy who melts hearts with her soulful eyes. She settles beautifully and will thrive in any loving home.",
-    imageUrl: "/puppy-basket.webp",
+    description: "Sandy is a stunning jet-black Cavoodle with the most soulful eyes. She's calm, loving, and utterly unique — rare black coats like hers are highly sought after.",
+    imageUrl: "/real-puppy-7.png",
   },
   {
     id: "7",
@@ -238,7 +238,7 @@ export function useSettings() {
   return { settings, saveSettings };
 }
 
-const PUPPIES_KEY = "purecavoodles_puppies_v5";
+const PUPPIES_KEY = "purecavoodles_puppies_v6";
 
 export function usePuppies() {
   const [puppies, setPuppies] = useState<Puppy[]>(() => {
