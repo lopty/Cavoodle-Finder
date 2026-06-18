@@ -1,16 +1,80 @@
+import { useState, useEffect, useCallback } from "react";
 import { usePuppies, useSettings } from "@/lib/data";
 import { PuppyCard } from "@/components/PuppyCard";
 import { Navbar, Footer } from "@/components/layout/Shared";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { 
-  MapPin, Heart, ShieldCheck, Star, PawPrint, 
+  MapPin, Heart, ShieldCheck, Star, PawPrint, ChevronLeft, ChevronRight,
   Syringe, Cpu, Dna, Award, MessageCircle, CheckCircle2 
 } from "lucide-react";
+
+const SLIDES = [
+  {
+    tag: "Australia's Premier Cavoodle Breeder",
+    line1: "Find Your Perfect",
+    line2: "Cavoodle Puppy",
+    sub: "Premium F1 & F1b Cavoodles raised in a family home, delivered Australia-wide.",
+    cta: "View Puppies",
+    ctaHref: "#puppies",
+    cta2: "Contact Us",
+    cta2Href: "#contact",
+    img: "/puppy-basket.webp",
+    imgAlt: "Apricot Cavoodle puppy sitting in a basket",
+    accent: "bg-[#FFF8EE] border-[#F5DCAF]",
+  },
+  {
+    tag: "Health Guaranteed",
+    line1: "Raised with Love,",
+    line2: "In a Family Home",
+    sub: "Every puppy is vet checked, vaccinated, microchipped and DNA-tested before joining your family.",
+    cta: "Our Promise",
+    ctaHref: "#certifications",
+    cta2: "Meet the Puppies",
+    cta2Href: "#puppies",
+    img: "/puppy-tongue.webp",
+    imgAlt: "Playful ruby red Cavoodle puppy",
+    accent: "bg-[#F5F9F5] border-[#C2E5C2]",
+  },
+  {
+    tag: "Australia-Wide Delivery",
+    line1: "Your New Best Friend,",
+    line2: "Delivered Safely",
+    sub: "We partner with trusted transport services to bring your puppy safely home — anywhere in Australia.",
+    cta: "See Locations",
+    ctaHref: "#locations",
+    cta2: "WhatsApp Us",
+    cta2Href: "#contact",
+    img: "/puppies-grass.webp",
+    imgAlt: "Group of adorable Cavoodle puppies playing on grass",
+    accent: "bg-[#F6F2FF] border-[#D5C5F5]",
+  },
+];
 
 export default function Home() {
   const { puppies } = usePuppies();
   const { settings } = useSettings();
+  const [slide, setSlide] = useState(0);
+  const [animating, setAnimating] = useState(false);
+  const [paused, setPaused] = useState(false);
+
+  const goTo = useCallback((idx: number) => {
+    if (animating) return;
+    setAnimating(true);
+    setTimeout(() => {
+      setSlide(idx);
+      setAnimating(false);
+    }, 300);
+  }, [animating]);
+
+  const next = useCallback(() => goTo((slide + 1) % SLIDES.length), [goTo, slide]);
+  const prev = useCallback(() => goTo((slide - 1 + SLIDES.length) % SLIDES.length), [goTo, slide]);
+
+  useEffect(() => {
+    if (paused) return;
+    const t = setInterval(next, 5000);
+    return () => clearInterval(t);
+  }, [next, paused]);
 
   const locations = [
     "Sydney", "Melbourne", "Brisbane", "Perth", 
@@ -33,75 +97,151 @@ export default function Home() {
       <Navbar />
 
       <main className="flex-1">
-        {/* Section 1: Hero — clean split layout */}
-        <section className="overflow-hidden" style={{background: "linear-gradient(135deg, #FDF6EC 0%, #FAF0DC 60%, #F5E6C4 100%)"}}>
-          <div className="max-w-6xl mx-auto px-6 md:px-12 py-12 md:py-16 flex flex-col md:flex-row items-center gap-8 md:gap-12">
+        {/* Section 1: Hero Carousel */}
+        <section
+          className="overflow-hidden select-none"
+          style={{background: "linear-gradient(135deg, #FDF6EC 0%, #FAF0DC 60%, #F5E6C4 100%)"}}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          <div className="max-w-6xl mx-auto px-6 md:px-12 pt-10 md:pt-14 pb-4">
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
 
-            {/* Left: Text */}
-            <div className="flex-1 space-y-5 text-center md:text-left">
-              <div className="inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 text-primary text-xs font-semibold px-3.5 py-1.5 rounded-full tracking-wide">
-                <PawPrint className="w-3 h-3" />
-                Australia's Premier Cavoodle Breeder
-              </div>
-
-              <h1 className="font-serif text-[2.4rem] md:text-5xl lg:text-[3.2rem] text-[#2E1A08] leading-[1.1]">
-                Find Your Perfect<br />
-                <em className="text-primary not-italic">Cavoodle Puppy</em>
-              </h1>
-
-              <p className="text-[#7A5030] text-sm md:text-base leading-relaxed max-w-sm mx-auto md:mx-0">
-                Premium F1 & F1b Cavoodles raised in a family home, delivered Australia-wide.
-              </p>
-
-              <div className="flex flex-wrap gap-2.5 justify-center md:justify-start">
-                <a href="#puppies" className="bg-primary text-white hover:bg-primary/90 px-6 py-2.5 rounded-full text-sm font-semibold shadow-md transition-colors">
-                  View Puppies
-                </a>
-                <a href="#contact" className="border border-primary/40 text-primary hover:bg-primary/8 px-6 py-2.5 rounded-full text-sm font-semibold transition-colors">
-                  Contact Us
-                </a>
-              </div>
-
-              <div className="flex flex-wrap justify-center md:justify-start gap-4 pt-1">
-                {[
-                  { icon: CheckCircle2, label: "500+ Families" },
-                  { icon: ShieldCheck, label: "Health Guaranteed" },
-                  { icon: MapPin, label: "Australia-Wide" },
-                ].map(({ icon: Icon, label }, i) => (
-                  <div key={i} className="flex items-center gap-1.5 text-[#7A5030] text-xs font-medium">
-                    <Icon className="w-3.5 h-3.5 text-primary shrink-0" />
-                    {label}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right: Photo */}
-            <div className="flex-1 flex justify-center md:justify-end relative">
-              <div className="relative w-64 md:w-80 lg:w-96">
-                <img
-                  src="/puppy-basket.webp"
-                  alt="Adorable apricot Cavoodle puppy"
-                  className="w-full rounded-[2rem] shadow-2xl object-cover aspect-[4/5]"
-                  style={{filter: "drop-shadow(0 20px 40px rgba(139,74,26,0.18))"}}
-                />
-                {/* Floating card */}
-                <div className="absolute -bottom-4 -left-4 md:-left-8 bg-white rounded-2xl shadow-xl px-4 py-3 border border-[#F0E0C8]">
-                  <p className="text-[10px] font-semibold text-primary uppercase tracking-wider mb-0.5">Ready Now</p>
-                  <p className="text-sm font-bold text-[#2E1A08]">6 Puppies Available</p>
-                  <div className="flex mt-1">
-                    {[...Array(5)].map((_, j) => <Star key={j} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
-                  </div>
+              {/* Left: Text (fades on transition) */}
+              <div
+                className="flex-1 space-y-5 text-center md:text-left transition-opacity duration-300"
+                style={{opacity: animating ? 0 : 1}}
+              >
+                <div className="inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 text-primary text-xs font-semibold px-3.5 py-1.5 rounded-full tracking-wide">
+                  <PawPrint className="w-3 h-3" />
+                  {SLIDES[slide].tag}
                 </div>
-                {/* Top badge */}
-                <div className="absolute -top-3 -right-3 md:-right-6 bg-[#25D366] text-white rounded-xl px-3 py-2 shadow-lg text-xs font-bold">
-                  WhatsApp Us!
+
+                <h1 className="font-serif text-[2.2rem] md:text-5xl lg:text-[3.1rem] text-[#2E1A08] leading-[1.12]">
+                  {SLIDES[slide].line1}<br />
+                  <em className="text-primary not-italic">{SLIDES[slide].line2}</em>
+                </h1>
+
+                <p className="text-[#7A5030] text-sm md:text-base leading-relaxed max-w-sm mx-auto md:mx-0">
+                  {SLIDES[slide].sub}
+                </p>
+
+                <div className="flex flex-wrap gap-2.5 justify-center md:justify-start">
+                  <a
+                    href={SLIDES[slide].ctaHref}
+                    className="bg-primary text-white hover:bg-primary/90 px-6 py-2.5 rounded-full text-sm font-semibold shadow-md transition-colors"
+                  >
+                    {SLIDES[slide].cta}
+                  </a>
+                  <a
+                    href={SLIDES[slide].cta2Href}
+                    className="border border-primary/40 text-primary hover:bg-primary/10 px-6 py-2.5 rounded-full text-sm font-semibold transition-colors"
+                  >
+                    {SLIDES[slide].cta2}
+                  </a>
+                </div>
+
+                {/* Stats */}
+                <div className="flex flex-wrap justify-center md:justify-start gap-6 pt-2">
+                  {[
+                    { value: "500+", label: "Happy Families" },
+                    { value: "6",    label: "Puppies Ready" },
+                    { value: "2yr",  label: "Health Guarantee" },
+                  ].map(({ value, label }) => (
+                    <div key={label} className="text-center md:text-left">
+                      <p className="font-serif text-xl font-bold text-[#2E1A08]">{value}</p>
+                      <p className="text-[10px] text-[#9A6840] font-medium uppercase tracking-wider">{label}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
 
+              {/* Right: Photo + arrows */}
+              <div className="flex-1 flex flex-col items-center md:items-end gap-4">
+                {/* Photo frame */}
+                <div
+                  className="relative w-64 md:w-[340px] lg:w-[400px] transition-opacity duration-300"
+                  style={{opacity: animating ? 0 : 1}}
+                >
+                  {/* Decorative ring */}
+                  <div className="absolute -inset-3 rounded-[2.5rem] border-2 border-dashed border-primary/20 pointer-events-none" />
+
+                  <img
+                    src={SLIDES[slide].img}
+                    alt={SLIDES[slide].imgAlt}
+                    className="w-full rounded-[2rem] shadow-2xl object-cover aspect-[4/5]"
+                  />
+
+                  {/* Floating "Ready Now" card */}
+                  <div className="absolute -bottom-5 -left-4 md:-left-10 bg-white rounded-2xl shadow-xl px-4 py-3 border border-[#F0E0C8]">
+                    <p className="text-[10px] font-semibold text-primary uppercase tracking-wider mb-0.5">Ready Now</p>
+                    <p className="text-sm font-bold text-[#2E1A08]">6 Puppies Available</p>
+                    <div className="flex mt-1 gap-0.5">
+                      {[...Array(5)].map((_, j) => <Star key={j} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
+                    </div>
+                  </div>
+
+                  {/* Slide counter badge */}
+                  <div className="absolute -top-3 -right-3 md:-right-4 bg-[#2E1A08] text-white rounded-xl px-3 py-1.5 text-xs font-bold tabular-nums">
+                    {slide + 1} / {SLIDES.length}
+                  </div>
+                </div>
+
+                {/* Arrow navigation */}
+                <div className="flex items-center gap-3 mt-2">
+                  <button
+                    onClick={prev}
+                    aria-label="Previous slide"
+                    className="w-10 h-10 rounded-full border-2 border-primary/30 bg-white hover:bg-primary hover:text-white hover:border-primary text-primary flex items-center justify-center transition-all shadow-sm"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+
+                  {/* Dots */}
+                  <div className="flex gap-2">
+                    {SLIDES.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => goTo(i)}
+                        aria-label={`Go to slide ${i + 1}`}
+                        className={`rounded-full transition-all duration-300 ${
+                          i === slide
+                            ? "w-6 h-2.5 bg-primary"
+                            : "w-2.5 h-2.5 bg-primary/25 hover:bg-primary/50"
+                        }`}
+                      />
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={next}
+                    aria-label="Next slide"
+                    className="w-10 h-10 rounded-full border-2 border-primary/30 bg-white hover:bg-primary hover:text-white hover:border-primary text-primary flex items-center justify-center transition-all shadow-sm"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Progress bar */}
+          <div className="h-0.5 bg-primary/10 mt-8">
+            <div
+              key={slide}
+              className="h-full bg-primary origin-left"
+              style={{
+                animation: paused ? "none" : "progress 5s linear forwards",
+                width: paused ? "0%" : undefined,
+              }}
+            />
           </div>
         </section>
+
+        <style>{`
+          @keyframes progress { from { width: 0% } to { width: 100% } }
+        `}</style>
 
         {/* Section 2: Trust Bar */}
         <div className="text-white py-2.5 overflow-hidden" style={{background: "linear-gradient(90deg, #7A3D14, #B86A22, #7A3D14)"}}>
