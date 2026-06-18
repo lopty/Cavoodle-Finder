@@ -147,60 +147,60 @@ const DEFAULT_PUPPIES: Puppy[] = [
     name: "Luna",
     breed: "F1b Cavoodle",
     gender: "Female",
-    color: "Cream",
+    color: "Golden",
     price: 5400,
     age: "8 weeks",
     status: "Available",
-    description: "Luna has a stunning cream fleece coat that's practically non-shedding. She's a quiet, gentle girl who loves laps and long cuddles.",
-    imageUrl: "/puppy-basket.webp",
+    description: "Luna has a stunning golden fleece coat that's practically non-shedding. She's a quiet, gentle girl who loves laps and long cuddles.",
+    imageUrl: "/real-puppy-1.png",
   },
   {
     id: "11",
     name: "Oscar",
     breed: "F1 Cavoodle",
     gender: "Male",
-    color: "Ruby Red",
+    color: "Apricot",
     price: 4600,
     age: "9 weeks",
     status: "Available",
-    description: "Oscar is a bold, adventurous boy with the most striking ruby red coat. He loves to explore and will keep the whole family entertained.",
-    imageUrl: "/puppy-tongue.webp",
+    description: "Oscar is a bold, adventurous boy with the most striking apricot coat. He loves to explore and will keep the whole family entertained.",
+    imageUrl: "/real-puppy-2.png",
   },
   {
     id: "12",
     name: "Bella",
     breed: "F1b Cavoodle",
     gender: "Female",
-    color: "Red & White",
+    color: "Ruby Red",
     price: 5300,
     age: "7 weeks",
     status: "Available",
-    description: "Bella has the sweetest face with her red and white parti coat. She's playful in bursts but happy to snuggle up on the couch for hours.",
-    imageUrl: "/puppy-redwhite.webp",
+    description: "Bella has the most gorgeous deep ruby red curls. She's playful in bursts but happy to snuggle up on the couch for hours.",
+    imageUrl: "/real-puppy-3.png",
   },
   {
     id: "13",
     name: "Cooper",
     breed: "F1 Cavoodle",
     gender: "Male",
-    color: "Apricot",
+    color: "Red & White",
     price: 4400,
     age: "10 weeks",
     status: "Available",
-    description: "Cooper is a social butterfly who's never met a stranger. His warm apricot coat and wagging tail will brighten up any household.",
-    imageUrl: "/puppy-brown.webp",
+    description: "Cooper is a social butterfly with a beautiful red and white parti coat. His warm personality and wagging tail will brighten up any household.",
+    imageUrl: "/real-puppy-4.png",
   },
   {
     id: "14",
     name: "Daisy",
     breed: "F1b Cavoodle",
     gender: "Female",
-    color: "Golden & Cream",
+    color: "White & Tan",
     price: 5100,
     age: "8 weeks",
     status: "Available",
-    description: "Daisy is a laid-back, gentle girl who loves being near her people. Her golden cream coat is soft as a cloud and practically non-shedding.",
-    imageUrl: "/puppy-bow.webp",
+    description: "Daisy is a laid-back, gentle girl with a striking white and tan parti coat. Her golden cream coat is soft as a cloud and practically non-shedding.",
+    imageUrl: "/real-puppy-5.png",
   },
   {
     id: "15",
@@ -212,7 +212,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "9 weeks",
     status: "Available",
     description: "Finn is a chocolatey dreamboat with the kindest eyes. He's easy-going, adores children, and has already won the hearts of everyone he's met.",
-    imageUrl: "/puppy-plants.webp",
+    imageUrl: "/puppy-brown.webp",
   },
 ];
 
@@ -238,7 +238,7 @@ export function useSettings() {
   return { settings, saveSettings };
 }
 
-const PUPPIES_KEY = "purecavoodles_puppies_v4";
+const PUPPIES_KEY = "purecavoodles_puppies_v5";
 
 export function usePuppies() {
   const [puppies, setPuppies] = useState<Puppy[]>(() => {
