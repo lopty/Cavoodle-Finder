@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useSettings, usePuppies, Puppy, PuppyStatus } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Helmet } from "react-helmet-async";
 import { toast } from "sonner";
 import { Link } from "wouter";
+import { Upload, Loader2, ImagePlus, ExternalLink } from "lucide-react";
 
 export default function Admin() {
   const { settings, saveSettings } = useSettings();
@@ -51,9 +52,9 @@ export default function Admin() {
             <form onSubmit={handleLogin} className="space-y-6 pt-4">
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <Input 
-                  id="password" 
-                  type="password" 
+                <Input
+                  id="password"
+                  type="password"
                   value={passwordInput}
                   onChange={e => setPasswordInput(e.target.value)}
                   placeholder="••••••••"
@@ -74,20 +75,20 @@ export default function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-dvh bg-background">
       <Helmet>
         <title>Admin Dashboard | Pure Cavoodles</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-      
-      <header className="bg-card border-b border-border py-4">
+
+      <header className="bg-card border-b border-border py-4 sticky top-0 z-10 shadow-sm">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <h1 className="font-serif text-2xl font-bold text-primary">Admin Dashboard</h1>
-          <div className="flex gap-4">
-            <Button variant="outline" asChild>
+          <div className="flex gap-3">
+            <Button variant="outline" size="sm" asChild>
               <Link href="/">View Site</Link>
             </Button>
-            <Button variant="secondary" onClick={handleLogout}>Logout</Button>
+            <Button variant="secondary" size="sm" onClick={handleLogout}>Logout</Button>
           </div>
         </div>
       </header>
@@ -98,77 +99,75 @@ export default function Admin() {
             <TabsTrigger value="puppies" className="text-base">Manage Puppies</TabsTrigger>
             <TabsTrigger value="settings" className="text-base">Settings</TabsTrigger>
           </TabsList>
-          
+
+          {/* ── PUPPIES TAB ── */}
           <TabsContent value="puppies" className="space-y-8">
-            <div className="flex justify-between items-end">
-              <div>
-                <h2 className="text-2xl font-bold mb-2">Puppies List</h2>
-                <p className="text-muted-foreground">Manage your currently listed puppies.</p>
-              </div>
+            <div>
+              <h2 className="text-2xl font-bold mb-1">Puppies List</h2>
+              <p className="text-muted-foreground text-sm">Add, edit or delete puppy listings.</p>
             </div>
 
-            <div className="grid gap-6">
-              <PuppyForm onSubmit={addPuppy} title="Add New Puppy" />
-              
-              <h3 className="text-xl font-bold mt-8 border-b pb-4">Existing Puppies</h3>
-              {puppies.map(puppy => (
-                <Card key={puppy.id} className="overflow-hidden">
-                  <div className="flex flex-col md:flex-row">
-                    <div className="w-full md:w-64 h-48 bg-muted shrink-0">
-                      <img src={puppy.imageUrl} alt={puppy.name} className="w-full h-full object-cover" />
-                    </div>
-                    <div className="p-6 flex-1 flex flex-col">
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <h4 className="text-xl font-bold flex items-center gap-2">
-                            {puppy.name} 
-                            <span className="text-sm font-normal bg-secondary px-2 py-0.5 rounded-full text-secondary-foreground">{puppy.status}</span>
-                          </h4>
-                          <p className="text-muted-foreground">{puppy.breed} &bull; {puppy.color} &bull; ${puppy.price}</p>
-                        </div>
-                        <Button variant="destructive" size="sm" onClick={() => {
-                          if (confirm(`Are you sure you want to delete ${puppy.name}?`)) {
-                            deletePuppy(puppy.id);
-                            toast.success("Puppy deleted");
-                          }
-                        }}>Delete</Button>
+            <PuppyForm onSubmit={addPuppy} title="Add New Puppy" />
+
+            <div>
+              <h3 className="text-xl font-bold border-b pb-3 mb-4">Existing Puppies ({puppies.length})</h3>
+              <div className="grid gap-5">
+                {puppies.map(puppy => (
+                  <Card key={puppy.id} className="overflow-hidden">
+                    <div className="flex flex-col md:flex-row">
+                      <div className="w-full md:w-56 h-44 bg-muted shrink-0">
+                        {puppy.imageUrl
+                          ? <img src={puppy.imageUrl} alt={puppy.name} className="w-full h-full object-cover" />
+                          : <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">No image</div>
+                        }
                       </div>
-                      
-                      <div className="mt-auto">
-                        <details>
-                          <summary className="cursor-pointer text-sm font-medium text-primary mb-4">Edit this puppy</summary>
-                          <div className="pt-4 border-t mt-2">
-                            <PuppyForm 
-                              initialData={puppy} 
+                      <div className="p-5 flex-1 flex flex-col">
+                        <div className="flex justify-between items-start mb-3">
+                          <div>
+                            <h4 className="text-lg font-bold flex items-center gap-2 flex-wrap">
+                              {puppy.name}
+                              <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                                puppy.status === "Available" ? "bg-green-100 text-green-700" :
+                                puppy.status === "Reserved" ? "bg-amber-100 text-amber-700" :
+                                "bg-gray-100 text-gray-500"
+                              }`}>{puppy.status}</span>
+                            </h4>
+                            <p className="text-muted-foreground text-sm">{puppy.breed} · {puppy.color} · ${puppy.price.toLocaleString()}</p>
+                          </div>
+                          <Button variant="destructive" size="sm" onClick={() => {
+                            if (confirm(`Delete ${puppy.name}?`)) {
+                              deletePuppy(puppy.id);
+                              toast.success(`${puppy.name} deleted`);
+                            }
+                          }}>Delete</Button>
+                        </div>
+                        <details className="mt-auto">
+                          <summary className="cursor-pointer text-sm font-semibold text-primary hover:underline">Edit this puppy ›</summary>
+                          <div className="pt-4 border-t mt-3">
+                            <PuppyForm
+                              initialData={puppy}
                               onSubmit={(data) => {
                                 updatePuppy(puppy.id, data);
-                                toast.success("Puppy updated");
-                              }} 
-                              isEdit 
+                                toast.success(`${puppy.name} updated`);
+                              }}
+                              isEdit
                             />
                           </div>
                         </details>
                       </div>
                     </div>
-                  </div>
-                </Card>
-              ))}
+                  </Card>
+                ))}
+              </div>
             </div>
           </TabsContent>
-          
-          <TabsContent value="settings">
-            <Card>
-              <CardHeader>
-                <CardTitle>Global Settings</CardTitle>
-                <CardDescription>Update your contact details and admin password.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <SettingsForm settings={settings} onSave={(newSettings) => {
-                  saveSettings(newSettings);
-                  toast.success("Settings saved successfully");
-                }} />
-              </CardContent>
-            </Card>
+
+          {/* ── SETTINGS TAB ── */}
+          <TabsContent value="settings" className="space-y-6">
+            <SettingsForm settings={settings} onSave={(newSettings) => {
+              saveSettings(newSettings);
+              toast.success("Settings saved");
+            }} />
           </TabsContent>
         </Tabs>
       </main>
@@ -176,57 +175,81 @@ export default function Admin() {
   );
 }
 
-// Sub-components for forms
-function PuppyForm({ initialData, onSubmit, title, isEdit = false }: { 
-  initialData?: Puppy, 
-  onSubmit: (data: Omit<Puppy, "id">) => void,
-  title?: string,
-  isEdit?: boolean
+/* ─────────────────────── PuppyForm ─────────────────────── */
+function PuppyForm({ initialData, onSubmit, title, isEdit = false }: {
+  initialData?: Puppy;
+  onSubmit: (data: Omit<Puppy, "id">) => void;
+  title?: string;
+  isEdit?: boolean;
 }) {
+  const { settings } = useSettings();
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState<Omit<Puppy, "id">>(() => initialData || {
-    name: "",
-    breed: "F1 Cavoodle",
-    gender: "Male",
-    color: "",
-    price: 4500,
-    age: "8 weeks",
-    status: "Available",
-    description: "",
-    imageUrl: ""
+    name: "", breed: "F1 Cavoodle", gender: "Male", color: "",
+    price: 4500, age: "8 weeks", status: "Available", description: "", imageUrl: "",
   });
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!settings.cloudinaryCloudName || !settings.cloudinaryUploadPreset) {
+      toast.error("Set up Cloudinary in Settings tab first.");
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("upload_preset", settings.cloudinaryUploadPreset!);
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${settings.cloudinaryCloudName}/image/upload`,
+        { method: "POST", body: fd }
+      );
+      const data = await res.json();
+      if (data.secure_url) {
+        setFormData(prev => ({ ...prev, imageUrl: data.secure_url }));
+        toast.success("Photo uploaded ✓");
+      } else {
+        toast.error("Upload failed — check your Cloudinary settings.");
+      }
+    } catch {
+      toast.error("Upload failed — network error.");
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
     if (!isEdit) {
-      setFormData({
-        name: "", breed: "F1 Cavoodle", gender: "Male", color: "", price: 4500, age: "8 weeks", status: "Available", description: "", imageUrl: ""
-      });
-      toast.success("New puppy added!");
+      setFormData({ name: "", breed: "F1 Cavoodle", gender: "Male", color: "", price: 4500, age: "8 weeks", status: "Available", description: "", imageUrl: "" });
     }
   };
 
+  const cloudinaryReady = !!(settings.cloudinaryCloudName && settings.cloudinaryUploadPreset);
+
   return (
     <Card className={isEdit ? "border-none shadow-none" : ""}>
-      {!isEdit && (
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
-        </CardHeader>
-      )}
+      {!isEdit && <CardHeader><CardTitle>{title}</CardTitle></CardHeader>}
       <CardContent className={isEdit ? "p-0" : ""}>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="space-y-1.5">
               <Label>Name</Label>
-              <Input required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
+              <Input required value={formData.name} onChange={e => setFormData(p => ({ ...p, name: e.target.value }))} />
             </div>
-            <div className="space-y-2">
-              <Label>Breed (e.g. F1 Cavoodle)</Label>
-              <Input required value={formData.breed} onChange={e => setFormData({...formData, breed: e.target.value})} />
+            <div className="space-y-1.5">
+              <Label>Breed</Label>
+              <Input required value={formData.breed} onChange={e => setFormData(p => ({ ...p, breed: e.target.value }))} />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <Label>Gender</Label>
-              <Select value={formData.gender} onValueChange={(v: any) => setFormData({...formData, gender: v})}>
+              <Select value={formData.gender} onValueChange={(v: any) => setFormData(p => ({ ...p, gender: v }))}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Male">Male</SelectItem>
@@ -234,21 +257,21 @@ function PuppyForm({ initialData, onSubmit, title, isEdit = false }: {
                 </SelectContent>
               </Select>
             </div>
-            <div className="space-y-2">
-              <Label>Color (e.g. Ruby Red, Apricot)</Label>
-              <Input required value={formData.color} onChange={e => setFormData({...formData, color: e.target.value})} />
+            <div className="space-y-1.5">
+              <Label>Color</Label>
+              <Input required value={formData.color} onChange={e => setFormData(p => ({ ...p, color: e.target.value }))} placeholder="e.g. Apricot, Ruby Red" />
             </div>
-            <div className="space-y-2">
-              <Label>Price (AUD)</Label>
-              <Input type="number" required value={formData.price} onChange={e => setFormData({...formData, price: Number(e.target.value)})} />
+            <div className="space-y-1.5">
+              <Label>Price (AUD $)</Label>
+              <Input type="number" required value={formData.price} onChange={e => setFormData(p => ({ ...p, price: Number(e.target.value) }))} />
             </div>
-            <div className="space-y-2">
-              <Label>Age (e.g. 8 weeks)</Label>
-              <Input required value={formData.age} onChange={e => setFormData({...formData, age: e.target.value})} />
+            <div className="space-y-1.5">
+              <Label>Age</Label>
+              <Input required value={formData.age} onChange={e => setFormData(p => ({ ...p, age: e.target.value }))} placeholder="e.g. 8 weeks" />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <Label>Status</Label>
-              <Select value={formData.status} onValueChange={(v: PuppyStatus) => setFormData({...formData, status: v})}>
+              <Select value={formData.status} onValueChange={(v: PuppyStatus) => setFormData(p => ({ ...p, status: v }))}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Available">Available</SelectItem>
@@ -257,45 +280,150 @@ function PuppyForm({ initialData, onSubmit, title, isEdit = false }: {
                 </SelectContent>
               </Select>
             </div>
-            <div className="space-y-2">
-              <Label>Image URL</Label>
-              <Input required value={formData.imageUrl} placeholder="https://..." onChange={e => setFormData({...formData, imageUrl: e.target.value})} />
+
+            {/* Photo upload field */}
+            <div className="space-y-1.5">
+              <Label>Photo</Label>
+              <div className="flex gap-2">
+                <Input
+                  value={formData.imageUrl}
+                  onChange={e => setFormData(p => ({ ...p, imageUrl: e.target.value }))}
+                  placeholder="https://… or upload →"
+                  className="flex-1 text-sm"
+                />
+                <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={uploading || !cloudinaryReady}
+                  title={cloudinaryReady ? "Upload photo to Cloudinary" : "Configure Cloudinary in Settings first"}
+                  onClick={() => fileRef.current?.click()}
+                  className="shrink-0 gap-1.5"
+                >
+                  {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImagePlus className="w-4 h-4" />}
+                  {uploading ? "Uploading…" : "Upload"}
+                </Button>
+              </div>
+              {formData.imageUrl && (
+                <img src={formData.imageUrl} alt="Preview" className="mt-2 h-24 w-24 rounded-lg object-cover border" />
+              )}
+              {!cloudinaryReady && (
+                <p className="text-xs text-amber-600">⚠ Add Cloudinary details in Settings to enable direct upload.</p>
+              )}
             </div>
           </div>
-          <div className="space-y-2">
+
+          <div className="space-y-1.5">
             <Label>Description</Label>
-            <Textarea required className="min-h-[100px]" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} />
+            <Textarea required className="min-h-[90px]" value={formData.description} onChange={e => setFormData(p => ({ ...p, description: e.target.value }))} />
           </div>
-          <Button type="submit" className="text-white">{isEdit ? 'Save Changes' : 'Add Puppy'}</Button>
+
+          <Button type="submit" className="text-white">
+            {isEdit ? "Save Changes" : "Add Puppy"}
+          </Button>
         </form>
       </CardContent>
     </Card>
   );
 }
 
-function SettingsForm({ settings, onSave }: { settings: any, onSave: (s: any) => void }) {
+/* ─────────────────────── SettingsForm ─────────────────────── */
+function SettingsForm({ settings, onSave }: { settings: any; onSave: (s: any) => void }) {
   const [formData, setFormData] = useState(settings);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSave(formData);
-  };
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-lg">
-      <div className="space-y-2">
-        <Label>Contact Email (Receives enquiries)</Label>
-        <Input type="email" required value={formData.contactEmail} onChange={e => setFormData({...formData, contactEmail: e.target.value})} />
+    <form onSubmit={e => { e.preventDefault(); onSave(formData); }} className="space-y-8 max-w-xl">
+
+      {/* Contact */}
+      <div className="space-y-4">
+        <h3 className="font-bold text-lg border-b pb-2">Contact Details</h3>
+        <div className="space-y-1.5">
+          <Label>Your Email (receives enquiries)</Label>
+          <Input type="email" required value={formData.contactEmail} onChange={e => setFormData((p: any) => ({ ...p, contactEmail: e.target.value }))} />
+        </div>
+        <div className="space-y-1.5">
+          <Label>WhatsApp Number (with country code)</Label>
+          <Input required value={formData.whatsappNumber} onChange={e => setFormData((p: any) => ({ ...p, whatsappNumber: e.target.value }))} placeholder="+61400000000" />
+        </div>
+        <div className="space-y-1.5">
+          <Label>Admin Password</Label>
+          <Input required value={formData.adminPassword} onChange={e => setFormData((p: any) => ({ ...p, adminPassword: e.target.value }))} />
+        </div>
       </div>
-      <div className="space-y-2">
-        <Label>WhatsApp Number (include country code, e.g. +61400000000)</Label>
-        <Input required value={formData.whatsappNumber} onChange={e => setFormData({...formData, whatsappNumber: e.target.value})} />
+
+      {/* Formspree */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between border-b pb-2">
+          <h3 className="font-bold text-lg">Formspree — Email Forms</h3>
+          <a href="https://formspree.io" target="_blank" rel="noopener noreferrer" className="text-xs text-primary flex items-center gap-1 hover:underline">
+            Get free account <ExternalLink className="w-3 h-3" />
+          </a>
+        </div>
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm space-y-1">
+          <p className="font-semibold text-amber-800">Setup (2 minutes, free):</p>
+          <ol className="list-decimal list-inside text-amber-700 space-y-0.5">
+            <li>Go to <strong>formspree.io</strong> → Sign up free</li>
+            <li>Create a new form → copy the Form ID (e.g. <code className="bg-amber-100 px-1 rounded">xdknplrz</code>)</li>
+            <li>Paste it below and save</li>
+          </ol>
+        </div>
+        <div className="space-y-1.5">
+          <Label>Formspree Form ID</Label>
+          <Input
+            value={formData.formspreeId || ""}
+            onChange={e => setFormData((p: any) => ({ ...p, formspreeId: e.target.value.trim() }))}
+            placeholder="e.g. xdknplrz"
+          />
+          {formData.formspreeId
+            ? <p className="text-xs text-green-600 font-medium">✓ Enquiry form will send emails directly to your inbox</p>
+            : <p className="text-xs text-muted-foreground">Without this, enquiries open the visitor's email app instead</p>
+          }
+        </div>
       </div>
-      <div className="space-y-2">
-        <Label>Admin Password</Label>
-        <Input required value={formData.adminPassword} onChange={e => setFormData({...formData, adminPassword: e.target.value})} />
+
+      {/* Cloudinary */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between border-b pb-2">
+          <h3 className="font-bold text-lg">Cloudinary — Photo Upload</h3>
+          <a href="https://cloudinary.com" target="_blank" rel="noopener noreferrer" className="text-xs text-primary flex items-center gap-1 hover:underline">
+            Get free account <ExternalLink className="w-3 h-3" />
+          </a>
+        </div>
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm space-y-1">
+          <p className="font-semibold text-blue-800">Setup (5 minutes, free — 25GB storage):</p>
+          <ol className="list-decimal list-inside text-blue-700 space-y-0.5">
+            <li>Go to <strong>cloudinary.com</strong> → Sign up free</li>
+            <li>Dashboard → copy your <strong>Cloud name</strong></li>
+            <li>Settings → Upload → Add upload preset → set to <strong>Unsigned</strong> → save</li>
+            <li>Copy the preset name and paste both below</li>
+          </ol>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <Label>Cloud Name</Label>
+            <Input
+              value={formData.cloudinaryCloudName || ""}
+              onChange={e => setFormData((p: any) => ({ ...p, cloudinaryCloudName: e.target.value.trim() }))}
+              placeholder="e.g. dpqhzxzqz"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Upload Preset (Unsigned)</Label>
+            <Input
+              value={formData.cloudinaryUploadPreset || ""}
+              onChange={e => setFormData((p: any) => ({ ...p, cloudinaryUploadPreset: e.target.value.trim() }))}
+              placeholder="e.g. purecavoodles"
+            />
+          </div>
+        </div>
+        {formData.cloudinaryCloudName && formData.cloudinaryUploadPreset
+          ? <p className="text-xs text-green-600 font-medium">✓ Photo upload button is active in the puppy form</p>
+          : <p className="text-xs text-muted-foreground">Without this, paste image URLs manually in the puppy form</p>
+        }
       </div>
-      <Button type="submit" className="text-white">Save Settings</Button>
+
+      <Button type="submit" className="text-white w-full sm:w-auto">Save All Settings</Button>
     </form>
   );
 }

@@ -19,12 +19,18 @@ export interface Settings {
   whatsappNumber: string;
   contactEmail: string;
   adminPassword?: string;
+  formspreeId?: string;
+  cloudinaryCloudName?: string;
+  cloudinaryUploadPreset?: string;
 }
 
 const DEFAULT_SETTINGS: Settings = {
   whatsappNumber: "+61400000000",
   contactEmail: "info@purecavoodles.com.au",
   adminPassword: "purecavoodles2024",
+  formspreeId: "",
+  cloudinaryCloudName: "",
+  cloudinaryUploadPreset: "",
 };
 
 const DEFAULT_PUPPIES: Puppy[] = [
