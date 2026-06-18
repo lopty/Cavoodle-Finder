@@ -38,7 +38,10 @@ export default function Admin() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-secondary/30 px-4">
-        <Helmet><title>Admin Login | Pure Cavoodles</title></Helmet>
+        <Helmet>
+          <title>Admin Login | Pure Cavoodles</title>
+          <meta name="robots" content="noindex, nofollow" />
+        </Helmet>
         <Card className="w-full max-w-md shadow-xl border-border">
           <CardHeader className="text-center pb-2">
             <CardTitle className="font-serif text-3xl text-primary">Admin Access</CardTitle>
@@ -72,7 +75,10 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet><title>Admin Dashboard | Pure Cavoodles</title></Helmet>
+      <Helmet>
+        <title>Admin Dashboard | Pure Cavoodles</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       
       <header className="bg-card border-b border-border py-4">
         <div className="container mx-auto px-4 flex justify-between items-center">

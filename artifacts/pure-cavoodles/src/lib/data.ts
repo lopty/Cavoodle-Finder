@@ -45,12 +45,12 @@ const DEFAULT_PUPPIES: Puppy[] = [
     name: "Honey",
     breed: "F1b Cavoodle",
     gender: "Female",
-    color: "Cream & White",
+    color: "Red & White",
     price: 5500,
     age: "9 weeks",
     status: "Reserved",
-    description: "Honey has the softest cream and white curls. She's a gentle soul who enjoys quiet naps in the sun and gentle play with her siblings.",
-    imageUrl: "/dogs-chair.webp",
+    description: "Honey has the most gorgeous red and white curls. She's a gentle soul who enjoys quiet naps in the sun and gentle play with her siblings.",
+    imageUrl: "/puppy-redwhite.webp",
   },
   {
     id: "3",
@@ -121,10 +121,12 @@ export function useSettings() {
   return { settings, saveSettings };
 }
 
+const PUPPIES_KEY = "purecavoodles_puppies_v2";
+
 export function usePuppies() {
   const [puppies, setPuppies] = useState<Puppy[]>(() => {
     try {
-      const stored = localStorage.getItem("purecavoodles_puppies");
+      const stored = localStorage.getItem(PUPPIES_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) return parsed;
@@ -132,13 +134,13 @@ export function usePuppies() {
     } catch (e) {
       console.error("Failed to load puppies", e);
     }
-    localStorage.setItem("purecavoodles_puppies", JSON.stringify(DEFAULT_PUPPIES));
+    localStorage.setItem(PUPPIES_KEY, JSON.stringify(DEFAULT_PUPPIES));
     return DEFAULT_PUPPIES;
   });
 
   const savePuppies = (newPuppies: Puppy[]) => {
     setPuppies(newPuppies);
-    localStorage.setItem("purecavoodles_puppies", JSON.stringify(newPuppies));
+    localStorage.setItem(PUPPIES_KEY, JSON.stringify(newPuppies));
   };
 
   const addPuppy = (puppy: Omit<Puppy, "id">) => {
@@ -154,5 +156,10 @@ export function usePuppies() {
     savePuppies(puppies.filter((p) => p.id !== id));
   };
 
-  return { puppies, savePuppies, addPuppy, updatePuppy, deletePuppy };
+  const resetToDefaults = () => {
+    localStorage.removeItem(PUPPIES_KEY);
+    savePuppies(DEFAULT_PUPPIES);
+  };
+
+  return { puppies, savePuppies, addPuppy, updatePuppy, deletePuppy, resetToDefaults };
 }

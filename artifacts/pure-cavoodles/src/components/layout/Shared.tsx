@@ -128,7 +128,6 @@ export function Footer() {
         
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-white/60 text-sm">
           <p>&copy; {new Date().getFullYear()} Pure Cavoodles Australia. All rights reserved.</p>
-          <Link href="/admin" className="hover:text-primary transition-colors font-bold uppercase tracking-wider text-xs">Admin Login</Link>
         </div>
       </div>
     </footer>

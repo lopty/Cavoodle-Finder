@@ -33,59 +33,73 @@ export default function Home() {
       <Navbar />
 
       <main className="flex-1">
-        {/* Section 1: Hero — full-bleed photo */}
-        <section className="relative overflow-hidden" style={{height: "clamp(440px, 58vh, 560px)"}}>
-          {/* Background photo */}
-          <img
-            src="/hero-bg.webp"
-            alt=""
-            aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover object-[60%_40%]"
-          />
-          {/* Overlay: dark on left, fades right */}
-          <div className="absolute inset-0" style={{background: "linear-gradient(105deg, rgba(38,16,4,0.88) 0%, rgba(38,16,4,0.65) 45%, rgba(38,16,4,0.18) 100%)"}} />
+        {/* Section 1: Hero — clean split layout */}
+        <section className="overflow-hidden" style={{background: "linear-gradient(135deg, #FDF6EC 0%, #FAF0DC 60%, #F5E6C4 100%)"}}>
+          <div className="max-w-6xl mx-auto px-6 md:px-12 py-12 md:py-16 flex flex-col md:flex-row items-center gap-8 md:gap-12">
 
-          {/* Text content — left aligned, constrained container */}
-          <div className="relative z-10 h-full flex items-center">
-            <div className="w-full max-w-6xl mx-auto px-6 md:px-12">
-              <div className="max-w-md">
-                <div className="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 text-white/80 text-xs font-medium px-3 py-1 rounded-full mb-4 tracking-wide">
-                  <PawPrint className="w-3 h-3" />
-                  Australia's Premier Cavoodle Breeder
+            {/* Left: Text */}
+            <div className="flex-1 space-y-5 text-center md:text-left">
+              <div className="inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 text-primary text-xs font-semibold px-3.5 py-1.5 rounded-full tracking-wide">
+                <PawPrint className="w-3 h-3" />
+                Australia's Premier Cavoodle Breeder
+              </div>
+
+              <h1 className="font-serif text-[2.4rem] md:text-5xl lg:text-[3.2rem] text-[#2E1A08] leading-[1.1]">
+                Find Your Perfect<br />
+                <em className="text-primary not-italic">Cavoodle Puppy</em>
+              </h1>
+
+              <p className="text-[#7A5030] text-sm md:text-base leading-relaxed max-w-sm mx-auto md:mx-0">
+                Premium F1 & F1b Cavoodles raised in a family home, delivered Australia-wide.
+              </p>
+
+              <div className="flex flex-wrap gap-2.5 justify-center md:justify-start">
+                <a href="#puppies" className="bg-primary text-white hover:bg-primary/90 px-6 py-2.5 rounded-full text-sm font-semibold shadow-md transition-colors">
+                  View Puppies
+                </a>
+                <a href="#contact" className="border border-primary/40 text-primary hover:bg-primary/8 px-6 py-2.5 rounded-full text-sm font-semibold transition-colors">
+                  Contact Us
+                </a>
+              </div>
+
+              <div className="flex flex-wrap justify-center md:justify-start gap-4 pt-1">
+                {[
+                  { icon: CheckCircle2, label: "500+ Families" },
+                  { icon: ShieldCheck, label: "Health Guaranteed" },
+                  { icon: MapPin, label: "Australia-Wide" },
+                ].map(({ icon: Icon, label }, i) => (
+                  <div key={i} className="flex items-center gap-1.5 text-[#7A5030] text-xs font-medium">
+                    <Icon className="w-3.5 h-3.5 text-primary shrink-0" />
+                    {label}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: Photo */}
+            <div className="flex-1 flex justify-center md:justify-end relative">
+              <div className="relative w-64 md:w-80 lg:w-96">
+                <img
+                  src="/puppy-basket.webp"
+                  alt="Adorable apricot Cavoodle puppy"
+                  className="w-full rounded-[2rem] shadow-2xl object-cover aspect-[4/5]"
+                  style={{filter: "drop-shadow(0 20px 40px rgba(139,74,26,0.18))"}}
+                />
+                {/* Floating card */}
+                <div className="absolute -bottom-4 -left-4 md:-left-8 bg-white rounded-2xl shadow-xl px-4 py-3 border border-[#F0E0C8]">
+                  <p className="text-[10px] font-semibold text-primary uppercase tracking-wider mb-0.5">Ready Now</p>
+                  <p className="text-sm font-bold text-[#2E1A08]">6 Puppies Available</p>
+                  <div className="flex mt-1">
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
+                  </div>
                 </div>
-                <h1 className="font-serif text-[2.6rem] md:text-5xl lg:text-[3.2rem] text-white leading-[1.1] mb-3">
-                  Find Your Perfect<br />
-                  <em className="text-[#FFD580] not-italic">Cavoodle Puppy</em>
-                </h1>
-                <p className="text-white/70 text-sm md:text-[15px] mb-6 leading-relaxed max-w-xs">
-                  Premium F1 & F1b Cavoodles raised in a family home, delivered Australia-wide.
-                </p>
-                <div className="flex flex-wrap gap-2.5">
-                  <a href="#puppies" className="bg-white text-[#8B4A1A] hover:bg-white/90 px-5 py-2.5 rounded-full text-sm font-semibold shadow-lg transition-colors">
-                    View Puppies
-                  </a>
-                  <a href="#contact" className="border border-white/35 text-white hover:bg-white/10 px-5 py-2.5 rounded-full text-sm font-semibold transition-colors backdrop-blur-sm">
-                    Contact Us
-                  </a>
+                {/* Top badge */}
+                <div className="absolute -top-3 -right-3 md:-right-6 bg-[#25D366] text-white rounded-xl px-3 py-2 shadow-lg text-xs font-bold">
+                  WhatsApp Us!
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Stats strip — frosted bar at bottom */}
-          <div className="absolute bottom-0 left-0 right-0 bg-black/30 backdrop-blur-md border-t border-white/10">
-            <div className="max-w-6xl mx-auto px-6 py-3 flex justify-center md:justify-start gap-6 md:gap-10">
-              {[
-                { icon: CheckCircle2, label: "500+ Happy Families" },
-                { icon: ShieldCheck, label: "Health Guaranteed" },
-                { icon: MapPin, label: "Australia-Wide Delivery" },
-              ].map(({ icon: Icon, label }, i) => (
-                <div key={i} className="flex items-center gap-1.5 text-white text-xs font-medium">
-                  <Icon className="w-3.5 h-3.5 text-[#FFD580] shrink-0" />
-                  <span className="whitespace-nowrap">{label}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </section>
 
