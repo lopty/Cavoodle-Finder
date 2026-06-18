@@ -38,7 +38,7 @@ export default function PuppyPage() {
   const otherPuppies = puppies.filter(p => p.id !== puppyId && p.status === "Available").slice(0, 2);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-dvh flex flex-col bg-background">
       <Helmet>
         <title>{`${puppy.name} — ${puppy.breed} Cavoodle Puppy For Sale | Pure Cavoodles`}</title>
         <meta name="description" content={`${puppy.name} is a beautiful ${puppy.color} ${puppy.breed} Cavoodle puppy looking for a forever home. $${puppy.price.toLocaleString()}.`} />

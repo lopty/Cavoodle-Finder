@@ -89,7 +89,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-dvh flex flex-col bg-background">
       <Helmet>
         <title>Cavoodle Puppies for Sale Australia | Pure Cavoodles</title>
       </Helmet>
@@ -109,40 +109,42 @@ export default function Home() {
 
               {/* Left: Text (fades on transition) */}
               <div
-                className="flex-1 space-y-5 text-center md:text-left transition-opacity duration-300"
+                className="flex-1 space-y-4 text-center md:text-left transition-opacity duration-300"
                 style={{opacity: animating ? 0 : 1}}
               >
-                <div className="inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 text-primary text-xs font-semibold px-3.5 py-1.5 rounded-full tracking-wide">
+                {/* Tag — hidden on mobile */}
+                <div className="hidden md:inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 text-primary text-xs font-semibold px-3.5 py-1.5 rounded-full tracking-wide">
                   <PawPrint className="w-3 h-3" />
                   {SLIDES[slide].tag}
                 </div>
 
-                <h1 className="font-serif text-[2.2rem] md:text-5xl lg:text-[3.1rem] text-[#2E1A08] leading-[1.12]">
+                <h1 className="font-serif text-[2rem] md:text-5xl lg:text-[3.1rem] text-[#2E1A08] leading-[1.12]">
                   {SLIDES[slide].line1}<br />
                   <em className="text-primary not-italic">{SLIDES[slide].line2}</em>
                 </h1>
 
-                <p className="text-[#7A5030] text-sm md:text-base leading-relaxed max-w-sm mx-auto md:mx-0">
+                {/* Subtitle — hidden on mobile */}
+                <p className="hidden md:block text-[#7A5030] text-sm md:text-base leading-relaxed max-w-sm mx-auto md:mx-0">
                   {SLIDES[slide].sub}
                 </p>
 
                 <div className="flex flex-wrap gap-2.5 justify-center md:justify-start">
                   <a
                     href={SLIDES[slide].ctaHref}
-                    className="bg-primary text-white hover:bg-primary/90 px-6 py-2.5 rounded-full text-sm font-semibold shadow-md transition-colors"
+                    className="bg-primary text-white hover:bg-primary/90 px-5 py-2 rounded-full text-sm font-semibold shadow-md transition-colors"
                   >
                     {SLIDES[slide].cta}
                   </a>
                   <a
                     href={SLIDES[slide].cta2Href}
-                    className="border border-primary/40 text-primary hover:bg-primary/10 px-6 py-2.5 rounded-full text-sm font-semibold transition-colors"
+                    className="border border-primary/40 text-primary hover:bg-primary/10 px-5 py-2 rounded-full text-sm font-semibold transition-colors"
                   >
                     {SLIDES[slide].cta2}
                   </a>
                 </div>
 
-                {/* Stats */}
-                <div className="flex flex-wrap justify-center md:justify-start gap-6 pt-2">
+                {/* Stats — hidden on mobile */}
+                <div className="hidden md:flex flex-wrap justify-center md:justify-start gap-6 pt-1">
                   {[
                     { value: "500+", label: "Happy Families" },
                     { value: "6",    label: "Puppies Ready" },
@@ -499,31 +501,38 @@ export default function Home() {
         </section>
 
         {/* Section 7: Locations */}
-        <section id="locations" className="py-14 text-white relative overflow-hidden" style={{background: "linear-gradient(135deg, #4A2810 0%, #7A3A14 40%, #B56020 100%)"}}>
-          <div className="container mx-auto px-4 max-w-5xl relative z-10">
-            <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-1.5 bg-white/15 border border-white/20 text-white/85 text-xs font-medium px-3 py-1 rounded-full mb-4">
+        <section id="locations" className="py-14 bg-[#F9F4EC]">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 text-primary text-xs font-semibold px-3.5 py-1.5 rounded-full mb-4">
                 <MapPin className="w-3 h-3" />
                 Australia-Wide Delivery
               </div>
-              <h2 className="font-serif text-3xl md:text-4xl mb-2">Delivering Joy Across Australia</h2>
-              <p className="text-sm text-white/70 max-w-xl mx-auto">
+              <h2 className="font-serif text-3xl md:text-4xl text-[#2E1A08] mb-2">Delivering Joy Across Australia</h2>
+              <p className="text-sm text-[#7A5030]/80 max-w-md mx-auto">
                 We partner with trusted pet transport services — your puppy arrives safely, wherever you are.
               </p>
             </div>
-            <div className="flex flex-wrap justify-center gap-2.5 max-w-3xl mx-auto mb-10">
+
+            {/* City grid — 3 cols on mobile, auto on desktop */}
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:flex md:flex-wrap md:justify-center gap-2.5 max-w-2xl mx-auto mb-8">
               {locations.map(city => (
-                <div key={city} className="flex items-center gap-1.5 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-xs font-medium hover:bg-white/20 transition-colors cursor-default">
-                  <MapPin className="w-3 h-3 opacity-70" />
-                  {city}
+                <div
+                  key={city}
+                  className="flex items-center justify-center gap-1.5 bg-white border border-[#E8D8C0] text-[#5C3A1A] px-3 py-2 rounded-xl text-xs font-medium shadow-sm hover:border-primary/40 hover:bg-primary/5 transition-colors cursor-default"
+                >
+                  <MapPin className="w-3 h-3 text-primary shrink-0" />
+                  <span className="truncate">{city}</span>
                 </div>
               ))}
             </div>
-            <div className="bg-white text-foreground rounded-2xl p-6 max-w-lg mx-auto text-center shadow-xl">
-              <h3 className="font-serif text-xl mb-1.5">Not sure about transport?</h3>
-              <p className="text-muted-foreground text-sm mb-4">We'll walk you through the entire process, step by step.</p>
-              <Button asChild className="rounded-full font-semibold bg-primary hover:bg-primary/90 text-white h-9 text-sm px-6">
-                <a href="#contact">Contact Us</a>
+
+            <div className="bg-white border border-[#E8D8C0] rounded-2xl p-6 max-w-md mx-auto text-center shadow-sm">
+              <h3 className="font-serif text-lg text-[#2E1A08] mb-1">Not sure about transport?</h3>
+              <p className="text-[#7A5030] text-xs mb-4">We'll walk you through every step — no stress.</p>
+              <Button onClick={handleWhatsApp} className="rounded-full font-semibold bg-[#25D366] hover:bg-[#20BD5A] text-white h-9 text-sm px-6">
+                <MessageCircle className="w-3.5 h-3.5 mr-1.5" />
+                Ask on WhatsApp
               </Button>
             </div>
           </div>

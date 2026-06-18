@@ -37,7 +37,7 @@ export default function Admin() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-secondary/30 px-4">
+      <div className="min-h-dvh flex items-center justify-center bg-secondary/30 px-4">
         <Helmet>
           <title>Admin Login | Pure Cavoodles</title>
           <meta name="robots" content="noindex, nofollow" />
