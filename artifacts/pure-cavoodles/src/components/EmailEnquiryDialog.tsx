@@ -63,10 +63,15 @@ export function EmailEnquiryDialog({ puppy, variant = "default", className, butt
       formData.message,
     ].join("\n");
 
+    const mailtoUrl = `mailto:${ENQUIRY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    // Must append to DOM so browsers allow the click
     const a = document.createElement("a");
-    a.href = `mailto:${ENQUIRY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    a.target = "_blank";
+    a.href = mailtoUrl;
+    a.style.display = "none";
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
 
     setSent(true);
     toast.success("Opening your email client… 🐾");
