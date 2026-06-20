@@ -1,12 +1,14 @@
-import { useSettings, Puppy } from "@/lib/data";
+import { Puppy } from "@/lib/data";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { Mail, Loader2, CheckCircle2 } from "lucide-react";
+import { Mail, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
+
+const ENQUIRY_EMAIL = "contact@cavoodlepets.com";
 
 interface Props {
   puppy: Puppy;
@@ -16,66 +18,58 @@ interface Props {
 }
 
 export function EmailEnquiryDialog({ puppy, variant = "default", className, buttonText = "Email Enquiry" }: Props) {
-  const { settings } = useSettings();
   const [open, setOpen] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
-    phone: "",
     email: "",
-    message: `Hi, I'm interested in ${puppy.name}. Please contact me with more details.`
+    phone: "",
+    address: "",
+    suburb: "",
+    state: "",
+    message: `Hi, I'm interested in ${puppy.name}. Please contact me with more details.`,
   });
 
   const reset = () => {
-    setFormData({ name: "", phone: "", email: "", message: `Hi, I'm interested in ${puppy.name}. Please contact me with more details.` });
+    setFormData({
+      name: "", email: "", phone: "", address: "", suburb: "", state: "",
+      message: `Hi, I'm interested in ${puppy.name}. Please contact me with more details.`,
+    });
     setSent(false);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email) {
       toast.error("Please fill in your name and email.");
       return;
     }
 
-    if (settings.formspreeId) {
-      setSubmitting(true);
-      try {
-        const res = await fetch(`https://formspree.io/f/${settings.formspreeId}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({
-            _subject: `Puppy Enquiry: ${puppy.name} — Pure Cavoodles`,
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone || "Not provided",
-            puppy: `${puppy.name} (${puppy.breed} · ${puppy.color} · $${puppy.price.toLocaleString()})`,
-            message: formData.message,
-          }),
-        });
-        const json = await res.json();
-        if (res.ok) {
-          setSent(true);
-          toast.success("Enquiry sent! We'll be in touch soon. 🐾");
-        } else {
-          toast.error(json.error || "Could not send. Please try WhatsApp instead.");
-        }
-      } catch {
-        toast.error("Network error. Please try WhatsApp instead.");
-      } finally {
-        setSubmitting(false);
-      }
-    } else {
-      const subject = `Puppy Enquiry: ${puppy.name} — Pure Cavoodles`;
-      const body = `Name: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
-      const a = document.createElement("a");
-      a.href = `mailto:${settings.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      a.target = "_blank";
-      a.click();
-      toast.success("Opening your email client…");
-      setOpen(false);
-    }
+    const subject = `Puppy Enquiry: ${puppy.name} (${puppy.breed}) — Pure Cavoodles`;
+    const body = [
+      `=== PUPPY ENQUIRY ===`,
+      ``,
+      `Puppy:    ${puppy.name} — ${puppy.breed} · ${puppy.color} · $${puppy.price.toLocaleString()} AUD`,
+      ``,
+      `=== CUSTOMER DETAILS ===`,
+      `Name:     ${formData.name}`,
+      `Email:    ${formData.email}`,
+      `Phone:    ${formData.phone || "Not provided"}`,
+      `Address:  ${formData.address || "Not provided"}`,
+      `Suburb:   ${formData.suburb || "Not provided"}`,
+      `State:    ${formData.state || "Not provided"}`,
+      ``,
+      `=== MESSAGE ===`,
+      formData.message,
+    ].join("\n");
+
+    const a = document.createElement("a");
+    a.href = `mailto:${ENQUIRY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    a.target = "_blank";
+    a.click();
+
+    setSent(true);
+    toast.success("Opening your email client… 🐾");
   };
 
   return (
@@ -86,43 +80,68 @@ export function EmailEnquiryDialog({ puppy, variant = "default", className, butt
           {buttonText}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]" data-testid="dialog-email-enquiry">
+      <DialogContent className="sm:max-w-[480px] max-h-[90vh] overflow-y-auto" data-testid="dialog-email-enquiry">
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl text-primary">Enquire about {puppy.name}</DialogTitle>
           <DialogDescription>
-            {settings.formspreeId
-              ? "Fill in the form and it goes straight to our inbox."
-              : "This will open your email app pre-filled."}
+            Fill in the form below — your email app will open pre-filled and ready to send.
           </DialogDescription>
         </DialogHeader>
 
         {sent ? (
           <div className="flex flex-col items-center gap-4 py-8 text-center">
             <CheckCircle2 className="w-14 h-14 text-green-500" />
-            <h3 className="font-serif text-xl text-foreground">Enquiry Received!</h3>
-            <p className="text-muted-foreground text-sm">We'll get back to you within 24 hours.</p>
+            <h3 className="font-serif text-xl text-foreground">Almost there!</h3>
+            <p className="text-muted-foreground text-sm">Your email client has opened with everything pre-filled. Just hit <strong>Send</strong>!</p>
             <Button variant="outline" className="mt-2" onClick={() => setOpen(false)}>Close</Button>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+
+            {/* Name */}
             <div className="space-y-2">
               <Label htmlFor="name">Your Name *</Label>
-              <Input id="name" required value={formData.name} onChange={e => setFormData(p => ({ ...p, name: e.target.value }))} data-testid="input-name" />
+              <Input id="name" required placeholder="John Smith" value={formData.name} onChange={e => setFormData(p => ({ ...p, name: e.target.value }))} data-testid="input-name" />
             </div>
+
+            {/* Email */}
             <div className="space-y-2">
               <Label htmlFor="email">Your Email *</Label>
-              <Input id="email" type="email" required value={formData.email} onChange={e => setFormData(p => ({ ...p, email: e.target.value }))} data-testid="input-email" />
+              <Input id="email" type="email" required placeholder="john@example.com" value={formData.email} onChange={e => setFormData(p => ({ ...p, email: e.target.value }))} data-testid="input-email" />
             </div>
+
+            {/* Phone */}
             <div className="space-y-2">
               <Label htmlFor="phone">Phone Number</Label>
-              <Input id="phone" type="tel" value={formData.phone} onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))} data-testid="input-phone" />
+              <Input id="phone" type="tel" placeholder="+61 400 000 000" value={formData.phone} onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))} data-testid="input-phone" />
             </div>
+
+            {/* Address */}
+            <div className="space-y-2">
+              <Label htmlFor="address">Street Address</Label>
+              <Input id="address" placeholder="123 Main Street" value={formData.address} onChange={e => setFormData(p => ({ ...p, address: e.target.value }))} />
+            </div>
+
+            {/* Suburb + State side by side */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <Label htmlFor="suburb">Suburb</Label>
+                <Input id="suburb" placeholder="Bondi" value={formData.suburb} onChange={e => setFormData(p => ({ ...p, suburb: e.target.value }))} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="state">State</Label>
+                <Input id="state" placeholder="NSW" value={formData.state} onChange={e => setFormData(p => ({ ...p, state: e.target.value }))} />
+              </div>
+            </div>
+
+            {/* Message */}
             <div className="space-y-2">
               <Label htmlFor="message">Message</Label>
               <Textarea id="message" className="min-h-[90px]" value={formData.message} onChange={e => setFormData(p => ({ ...p, message: e.target.value }))} data-testid="input-message" />
             </div>
-            <Button type="submit" className="w-full text-white" disabled={submitting} data-testid="button-submit-enquiry">
-              {submitting ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Sending…</> : "Send Enquiry"}
+
+            <Button type="submit" className="w-full text-white" data-testid="button-submit-enquiry">
+              Send Enquiry
             </Button>
           </form>
         )}
