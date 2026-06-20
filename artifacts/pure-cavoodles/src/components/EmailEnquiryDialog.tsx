@@ -5,10 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { Mail, CheckCircle2 } from "lucide-react";
+import { Mail, Loader2, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 
-const ENQUIRY_EMAIL = "contact@cavoodlepets.com";
+const WEB3FORMS_KEY = "8949595a-de98-4a4d-84b3-da521ea561e1";
 
 interface Props {
   puppy: Puppy;
@@ -19,6 +19,7 @@ interface Props {
 
 export function EmailEnquiryDialog({ puppy, variant = "default", className, buttonText = "Email Enquiry" }: Props) {
   const [open, setOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -38,36 +39,45 @@ export function EmailEnquiryDialog({ puppy, variant = "default", className, butt
     setSent(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email) {
       toast.error("Please fill in your name and email.");
       return;
     }
 
-    const subject = `Puppy Enquiry: ${puppy.name} (${puppy.breed}) — Pure Cavoodles`;
-    const body = [
-      `=== PUPPY ENQUIRY ===`,
-      ``,
-      `Puppy:    ${puppy.name} — ${puppy.breed} · ${puppy.color} · $${puppy.price.toLocaleString()} AUD`,
-      ``,
-      `=== CUSTOMER DETAILS ===`,
-      `Name:     ${formData.name}`,
-      `Email:    ${formData.email}`,
-      `Phone:    ${formData.phone || "Not provided"}`,
-      `Address:  ${formData.address || "Not provided"}`,
-      `Suburb:   ${formData.suburb || "Not provided"}`,
-      `State:    ${formData.state || "Not provided"}`,
-      ``,
-      `=== MESSAGE ===`,
-      formData.message,
-    ].join("\n");
+    setSubmitting(true);
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `Puppy Enquiry: ${puppy.name} (${puppy.breed}) — Pure Cavoodles`,
+          from_name: formData.name,
+          puppy: `${puppy.name} — ${puppy.breed} · ${puppy.color} · $${puppy.price.toLocaleString()} AUD`,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || "Not provided",
+          address: formData.address || "Not provided",
+          suburb: formData.suburb || "Not provided",
+          state: formData.state || "Not provided",
+          message: formData.message,
+        }),
+      });
 
-    // window.location.href is the most reliable cross-browser mailto trigger
-    window.location.href = `mailto:${ENQUIRY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    setSent(true);
-    toast.success("Opening your email client… 🐾");
+      const json = await res.json();
+      if (json.success) {
+        setSent(true);
+        toast.success("Enquiry sent! We'll be in touch soon. 🐾");
+      } else {
+        toast.error("Could not send. Please try WhatsApp instead.");
+      }
+    } catch {
+      toast.error("Network error. Please try WhatsApp instead.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -82,15 +92,15 @@ export function EmailEnquiryDialog({ puppy, variant = "default", className, butt
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl text-primary">Enquire about {puppy.name}</DialogTitle>
           <DialogDescription>
-            Fill in the form below — your email app will open pre-filled and ready to send.
+            Fill in the form and we'll get back to you within 24 hours.
           </DialogDescription>
         </DialogHeader>
 
         {sent ? (
           <div className="flex flex-col items-center gap-4 py-8 text-center">
             <CheckCircle2 className="w-14 h-14 text-green-500" />
-            <h3 className="font-serif text-xl text-foreground">Almost there!</h3>
-            <p className="text-muted-foreground text-sm">Your email client has opened with everything pre-filled. Just hit <strong>Send</strong>!</p>
+            <h3 className="font-serif text-xl text-foreground">Enquiry Sent!</h3>
+            <p className="text-muted-foreground text-sm">We'll get back to you within 24 hours. 🐾</p>
             <Button variant="outline" className="mt-2" onClick={() => setOpen(false)}>Close</Button>
           </div>
         ) : (
@@ -132,8 +142,8 @@ export function EmailEnquiryDialog({ puppy, variant = "default", className, butt
               <Textarea id="message" className="min-h-[90px]" value={formData.message} onChange={e => setFormData(p => ({ ...p, message: e.target.value }))} data-testid="input-message" />
             </div>
 
-            <Button type="submit" className="w-full text-white" data-testid="button-submit-enquiry">
-              Send Enquiry
+            <Button type="submit" className="w-full text-white" disabled={submitting} data-testid="button-submit-enquiry">
+              {submitting ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Sending…</> : "Send Enquiry"}
             </Button>
           </form>
         )}
