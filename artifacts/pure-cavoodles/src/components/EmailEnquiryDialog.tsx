@@ -63,15 +63,8 @@ export function EmailEnquiryDialog({ puppy, variant = "default", className, butt
       formData.message,
     ].join("\n");
 
-    const mailtoUrl = `mailto:${ENQUIRY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    // Must append to DOM so browsers allow the click
-    const a = document.createElement("a");
-    a.href = mailtoUrl;
-    a.style.display = "none";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    // window.location.href is the most reliable cross-browser mailto trigger
+    window.location.href = `mailto:${ENQUIRY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
     setSent(true);
     toast.success("Opening your email client… 🐾");
@@ -103,31 +96,26 @@ export function EmailEnquiryDialog({ puppy, variant = "default", className, butt
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">
 
-            {/* Name */}
             <div className="space-y-2">
               <Label htmlFor="name">Your Name *</Label>
               <Input id="name" required placeholder="John Smith" value={formData.name} onChange={e => setFormData(p => ({ ...p, name: e.target.value }))} data-testid="input-name" />
             </div>
 
-            {/* Email */}
             <div className="space-y-2">
               <Label htmlFor="email">Your Email *</Label>
               <Input id="email" type="email" required placeholder="john@example.com" value={formData.email} onChange={e => setFormData(p => ({ ...p, email: e.target.value }))} data-testid="input-email" />
             </div>
 
-            {/* Phone */}
             <div className="space-y-2">
               <Label htmlFor="phone">Phone Number</Label>
               <Input id="phone" type="tel" placeholder="+61 400 000 000" value={formData.phone} onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))} data-testid="input-phone" />
             </div>
 
-            {/* Address */}
             <div className="space-y-2">
               <Label htmlFor="address">Street Address</Label>
               <Input id="address" placeholder="123 Main Street" value={formData.address} onChange={e => setFormData(p => ({ ...p, address: e.target.value }))} />
             </div>
 
-            {/* Suburb + State side by side */}
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
                 <Label htmlFor="suburb">Suburb</Label>
@@ -139,7 +127,6 @@ export function EmailEnquiryDialog({ puppy, variant = "default", className, butt
               </div>
             </div>
 
-            {/* Message */}
             <div className="space-y-2">
               <Label htmlFor="message">Message</Label>
               <Textarea id="message" className="min-h-[90px]" value={formData.message} onChange={e => setFormData(p => ({ ...p, message: e.target.value }))} data-testid="input-message" />
