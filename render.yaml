@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: cavoodle-finder
+    runtime: static
+    buildCommand: pnpm --filter @workspace/pure-cavoodles run build
+    staticPublishPath: artifacts/pure-cavoodles/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
