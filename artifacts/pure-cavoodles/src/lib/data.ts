@@ -56,7 +56,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "9 weeks",
     status: "Available",
     description: "Honey has the most gorgeous red and white curls. She's a gentle soul who enjoys quiet naps in the sun and gentle play with her siblings.",
-    imageUrl: "/client-puppy-white-tan.png",
+    imageUrl: "/client-puppy-honey.png",
   },
   {
     id: "3",
@@ -72,39 +72,27 @@ const DEFAULT_PUPPIES: Puppy[] = [
   },
   {
     id: "4",
-    name: "Megan",
+    name: "Jerry",
     breed: "F1b Cavoodle",
-    gender: "Female",
-    color: "Golden & White",
+    gender: "Male",
+    color: "Apricot & White",
     price: 5000,
     age: "8 weeks",
     status: "Available",
-    description: "Megan is an absolute sweetheart with the most beautiful golden and white coat. She's confident, curious, and loves meeting new people.",
-    imageUrl: "/client-puppy-tricolor.png",
-  },
-  {
-    id: "5",
-    name: "Rusty",
-    breed: "F1 Cavoodle",
-    gender: "Male",
-    color: "Ruby Red",
-    price: 4200,
-    age: "9 weeks",
-    status: "Available",
-    description: "Rusty has a big personality packed into a tiny body. He's a cheeky little pup who loves exploring, cuddles, and showing off his adorable tongue.",
-    imageUrl: "/client-puppy-red-couch.png",
+    description: "Jerry is an adorable apricot and white puppy with a soft, fluffy coat. He is a lovely little companion ready to meet his new family.",
+    imageUrl: "/client-puppy-jerry.png",
   },
   {
     id: "6",
-    name: "Sandy",
+    name: "Jules",
     breed: "F1 Cavoodle",
-    gender: "Female",
-    color: "Black",
+    gender: "Male",
+    color: "Black & White",
     price: 4800,
-    age: "7 weeks",
+    age: "8 weeks",
     status: "Available",
-    description: "Sandy is a stunning jet-black Cavoodle with the most soulful eyes. She's calm, loving, and utterly unique — rare black coats like hers are highly sought after.",
-    imageUrl: "/client-puppy-black-white.png",
+    description: "Jules is an adorable black and white puppy with a soft, fluffy coat. He is a lovely little companion ready to meet his new family.",
+    imageUrl: "/client-puppy-jules.png",
   },
   {
     id: "7",
@@ -120,51 +108,27 @@ const DEFAULT_PUPPIES: Puppy[] = [
   },
   {
     id: "8",
-    name: "Rosie",
+    name: "Mary",
     breed: "F1 Cavoodle",
     gender: "Female",
     color: "Chocolate",
     price: 4700,
-    age: "9 weeks",
+    age: "6 weeks",
     status: "Available",
-    description: "Rosie is a gorgeous chocolate Cavoodle who loves the outdoors. She's confident, playful, and brilliant with children of all ages.",
-    imageUrl: "/client-puppy-chocolate.png",
+    description: "Mary is an adorable chocolate puppy with a soft, fluffy coat and beautiful eyes. She is a lovely little companion ready to meet her new family.",
+    imageUrl: "/client-puppy-mary.png",
   },
   {
     id: "9",
-    name: "Charlie",
+    name: "Brandon",
     breed: "F1 Cavoodle",
     gender: "Male",
     color: "Golden & Cream",
     price: 4300,
-    age: "10 weeks",
+    age: "7 weeks",
     status: "Available",
-    description: "Charlie is the most laid-back boy in the litter — already perfectly settled and happy to snooze the day away. A dream puppy for any home.",
-    imageUrl: "/client-puppy-white.png",
-  },
-  {
-    id: "10",
-    name: "Luna",
-    breed: "F1b Cavoodle",
-    gender: "Female",
-    color: "Golden",
-    price: 5400,
-    age: "8 weeks",
-    status: "Available",
-    description: "Luna has a stunning golden fleece coat that's practically non-shedding. She's a quiet, gentle girl who loves laps and long cuddles.",
-    imageUrl: "/client-puppy-apricot.png",
-  },
-  {
-    id: "11",
-    name: "Oscar",
-    breed: "F1 Cavoodle",
-    gender: "Male",
-    color: "Apricot",
-    price: 4600,
-    age: "9 weeks",
-    status: "Available",
-    description: "Oscar is a bold, adventurous boy with the most striking apricot coat. He loves to explore and will keep the whole family entertained.",
-    imageUrl: "/client-puppy-apricot.png",
+    description: "Brandon is an adorable golden and cream puppy with a soft, fluffy coat. He's a lovely little companion ready to meet his new family.",
+    imageUrl: "/client-puppy-brandon.png",
   },
   {
     id: "12",
@@ -180,15 +144,15 @@ const DEFAULT_PUPPIES: Puppy[] = [
   },
   {
     id: "13",
-    name: "Cooper",
+    name: "Tom",
     breed: "F1 Cavoodle",
     gender: "Male",
-    color: "Red & White",
+    color: "Chocolate & White",
     price: 4400,
-    age: "10 weeks",
+    age: "8 weeks",
     status: "Available",
-    description: "Cooper is a social butterfly with a beautiful red and white parti coat. His warm personality and wagging tail will brighten up any household.",
-    imageUrl: "/client-puppy-tricolor.png",
+    description: "Tom is a sweet chocolate and white puppy with a beautiful fluffy coat. He's a lovely little companion ready to meet his new family.",
+    imageUrl: "/client-puppy-tom.png",
   },
   {
     id: "14",
@@ -204,15 +168,15 @@ const DEFAULT_PUPPIES: Puppy[] = [
   },
   {
     id: "15",
-    name: "Finn",
+    name: "James",
     breed: "F1 Cavoodle",
     gender: "Male",
-    color: "Chocolate",
+    color: "Black & White",
     price: 4500,
     age: "9 weeks",
     status: "Available",
-    description: "Finn is a chocolatey dreamboat with the kindest eyes. He's easy-going, adores children, and has already won the hearts of everyone he's met.",
-    imageUrl: "/client-puppy-chocolate.png",
+    description: "James is a lovely black and white puppy with a soft, fluffy coat. He is a sweet little companion ready to meet his new family.",
+    imageUrl: "/client-puppy-james.png",
   },
 ];
 
@@ -259,6 +223,16 @@ const LEGACY_PUPPY_IMAGES: Record<string, string> = {
 
 const PUPPIES_KEY = "purecavoodles_puppies_v7";
 
+function validUniquePuppies(puppies: Puppy[]): Puppy[] {
+  const seen = new Set<string>();
+  return puppies.filter((puppy) => {
+    if (!puppy.name?.trim() || !puppy.age?.trim() || !Number.isFinite(puppy.price) || puppy.price <= 0) return false;
+    if (seen.has(puppy.imageUrl)) return false;
+    seen.add(puppy.imageUrl);
+    return true;
+  });
+}
+
 export function usePuppies() {
   const [puppies, setPuppies] = useState<Puppy[]>(() => {
     try {
@@ -266,9 +240,26 @@ export function usePuppies() {
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          const refreshed = parsed.map((puppy: Puppy) => ({
+          const refreshed = validUniquePuppies(parsed.map((puppy: Puppy) => {
+            const updatedListing = DEFAULT_PUPPIES.find((listing) => listing.id === puppy.id);
+            if (updatedListing && (
+              (puppy.id === "13" && puppy.name === "Cooper") ||
+              (puppy.id === "9" && puppy.name === "Charlie") ||
+              (puppy.id === "6" && puppy.name === "Sandy") ||
+              (puppy.id === "4" && puppy.name === "Megan") ||
+              (puppy.id === "8" && puppy.name === "Rosie") ||
+              (puppy.id === "15" && puppy.name === "Finn")
+            )) {
+              return { ...puppy, name: updatedListing.name, gender: updatedListing.gender,
+                age: updatedListing.age, color: updatedListing.color,
+                description: updatedListing.description, imageUrl: updatedListing.imageUrl };
+            }
+            return ({
             ...puppy,
-            imageUrl: LEGACY_PUPPY_IMAGES[puppy.imageUrl] ?? puppy.imageUrl,
+            imageUrl: puppy.id === "2" && ["/puppy-redwhite.webp", "/client-puppy-white-tan.png"].includes(puppy.imageUrl)
+              ? "/client-puppy-honey.png"
+              : LEGACY_PUPPY_IMAGES[puppy.imageUrl] ?? puppy.imageUrl,
+            });
           }));
           localStorage.setItem(PUPPIES_KEY, JSON.stringify(refreshed));
           return refreshed;

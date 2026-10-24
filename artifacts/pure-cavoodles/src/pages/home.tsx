@@ -19,8 +19,8 @@ const SLIDES = [
     ctaHref: "#puppies",
     cta2: "Contact Us",
     cta2Href: "#contact",
-    img: "/client-puppy-red-couch.png",
-    imgAlt: "Red puppy sitting on a green couch",
+    img: "/client-puppy-white.png",
+    imgAlt: "White puppy resting on a gray couch",
     accent: "bg-[#FFF8EE] border-[#F5DCAF]",
   },
   {
@@ -32,8 +32,8 @@ const SLIDES = [
     ctaHref: "#certifications",
     cta2: "Meet the Puppies",
     cta2Href: "#puppies",
-    img: "/client-puppy-apricot.png",
-    imgAlt: "Apricot puppy on a cream blanket",
+    img: "/client-puppy-chocolate.png",
+    imgAlt: "Chocolate puppy on a silver blanket",
     accent: "bg-[#F5F9F5] border-[#C2E5C2]",
   },
   {
@@ -45,8 +45,8 @@ const SLIDES = [
     ctaHref: "#locations",
     cta2: "WhatsApp Us",
     cta2Href: "#contact",
-    img: "/client-puppy-merle.png",
-    imgAlt: "Merle puppy sitting on a green couch",
+    img: "/client-puppy-tricolor.png",
+    imgAlt: "Tricolor puppy resting on a cream couch",
     accent: "bg-[#F6F2FF] border-[#D5C5F5]",
   },
 ];
@@ -346,17 +346,6 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-              </div>
-              <div className="flex-1 w-full grid grid-cols-2 gap-3">
-                <div className="col-span-2 rounded-xl overflow-hidden shadow-lg border-4 border-white">
-                  <img src="/client-puppy-tricolor.png" alt="Tricolor puppy on a cream couch" className="w-full h-48 object-cover" />
-                </div>
-                <div className="rounded-xl overflow-hidden shadow-md border-4 border-white">
-                  <img src="/client-puppy-merle.png" alt="Merle puppy on a green couch" className="w-full h-32 object-cover" />
-                </div>
-                <div className="rounded-xl overflow-hidden shadow-md border-4 border-white">
-                  <img src="/client-puppy-white-tan.png" alt="Red and white Cavoodle puppy" className="w-full h-32 object-cover" />
-                </div>
               </div>
             </div>
           </div>
