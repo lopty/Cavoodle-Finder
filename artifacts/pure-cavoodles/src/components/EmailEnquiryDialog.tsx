@@ -133,7 +133,7 @@ export function EmailEnquiryDialog({ puppy, variant = "default", className, butt
               </div>
               <div className="space-y-2">
                 <Label htmlFor="state">State</Label>
-                <Input id="state" placeholder="NSW" value={formData.state} onChange={e => setFormData(p => ({ ...p, state: e.target.value }))} />
+                <Input id="state" placeholder="TX" value={formData.state} onChange={e => setFormData(p => ({ ...p, state: e.target.value }))} />
               </div>
             </div>
 

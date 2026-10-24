@@ -11,16 +11,16 @@ import {
 
 const SLIDES = [
   {
-    tag: "Australia's Premier Cavoodle Breeder",
+    tag: "Dallas, Texas Cavoodle Puppies",
     line1: "Find Your Perfect",
     line2: "Cavoodle Puppy",
-    sub: "Premium F1 & F1b Cavoodles raised in a family home, delivered Australia-wide.",
+    sub: "Premium F1 & F1b Cavoodles raised in a family home, delivered across Texas.",
     cta: "View Puppies",
     ctaHref: "#puppies",
     cta2: "Contact Us",
     cta2Href: "#contact",
-    img: "/puppy-basket.webp",
-    imgAlt: "Apricot Cavoodle puppy sitting in a basket",
+    img: "/client-puppy-red-couch.png",
+    imgAlt: "Red puppy sitting on a green couch",
     accent: "bg-[#FFF8EE] border-[#F5DCAF]",
   },
   {
@@ -32,21 +32,21 @@ const SLIDES = [
     ctaHref: "#certifications",
     cta2: "Meet the Puppies",
     cta2Href: "#puppies",
-    img: "/puppy-tongue.webp",
-    imgAlt: "Playful ruby red Cavoodle puppy",
+    img: "/client-puppy-apricot.png",
+    imgAlt: "Apricot puppy on a cream blanket",
     accent: "bg-[#F5F9F5] border-[#C2E5C2]",
   },
   {
-    tag: "Australia-Wide Delivery",
+    tag: "Texas Delivery",
     line1: "Your New Best Friend,",
     line2: "Delivered Safely",
-    sub: "We partner with trusted transport services to bring your puppy safely home — anywhere in Australia.",
+    sub: "We partner with trusted transport services to bring your puppy safely home — anywhere in Texas.",
     cta: "See Locations",
     ctaHref: "#locations",
     cta2: "WhatsApp Us",
     cta2Href: "#contact",
-    img: "/puppies-grass.webp",
-    imgAlt: "Group of adorable Cavoodle puppies playing on grass",
+    img: "/client-puppy-merle.png",
+    imgAlt: "Merle puppy sitting on a green couch",
     accent: "bg-[#F6F2FF] border-[#D5C5F5]",
   },
 ];
@@ -76,11 +76,7 @@ export default function Home() {
     return () => clearInterval(t);
   }, [next, paused]);
 
-  const locations = [
-    "Sydney", "Melbourne", "Brisbane", "Perth", 
-    "Adelaide", "Gold Coast", "Canberra", "Hobart", 
-    "Darwin", "Newcastle", "Geelong"
-  ];
+  const locations = ["Dallas", "Fort Worth", "Arlington", "Plano", "Irving", "Garland"];
 
   const handleWhatsApp = () => {
     const cleanNumber = settings.whatsappNumber.replace('+', '');
@@ -91,7 +87,7 @@ export default function Home() {
   return (
     <div className="min-h-dvh flex flex-col bg-background">
       <Helmet>
-        <title>Cavoodle Puppies for Sale Australia | Pure Cavoodles</title>
+        <title>Cavoodle Puppies for Sale Dallas, Texas | Pure Cavoodles</title>
       </Helmet>
       
       <Navbar />
@@ -331,7 +327,7 @@ export default function Home() {
 
             <div className="flex flex-col lg:flex-row gap-10 items-center bg-background rounded-2xl p-7 md:p-10 border">
               <div className="flex-1 space-y-4">
-                <h3 className="font-serif text-2xl md:text-3xl text-foreground">Australia's #1 Breed</h3>
+                <h3 className="font-serif text-2xl md:text-3xl text-foreground">A Family Favorite</h3>
                 <p className="text-sm text-foreground/70 leading-relaxed">
                   The Cavoodle (Cavalier King Charles Spaniel × Poodle) is the perfect blend — gentle, smart, and low-shedding.
                 </p>
@@ -353,13 +349,13 @@ export default function Home() {
               </div>
               <div className="flex-1 w-full grid grid-cols-2 gap-3">
                 <div className="col-span-2 rounded-xl overflow-hidden shadow-lg border-4 border-white">
-                  <img src="/dogs-yard.webp" alt="Cavoodles outdoors" className="w-full h-48 object-cover" />
+                  <img src="/client-puppy-tricolor.png" alt="Tricolor puppy on a cream couch" className="w-full h-48 object-cover" />
                 </div>
                 <div className="rounded-xl overflow-hidden shadow-md border-4 border-white">
-                  <img src="/puppies-grass.webp" alt="Cavoodle puppies" className="w-full h-32 object-cover" />
+                  <img src="/client-puppy-merle.png" alt="Merle puppy on a green couch" className="w-full h-32 object-cover" />
                 </div>
                 <div className="rounded-xl overflow-hidden shadow-md border-4 border-white">
-                  <img src="/puppy-redwhite.webp" alt="Red and white Cavoodle puppy" className="w-full h-32 object-cover" />
+                  <img src="/client-puppy-white-tan.png" alt="Red and white Cavoodle puppy" className="w-full h-32 object-cover" />
                 </div>
               </div>
             </div>
@@ -496,9 +492,9 @@ export default function Home() {
             <div className="text-center mb-8">
               <div className="inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 text-primary text-xs font-semibold px-3.5 py-1.5 rounded-full mb-4">
                 <MapPin className="w-3 h-3" />
-                Australia-Wide Delivery
+                Texas Delivery
               </div>
-              <h2 className="font-serif text-3xl md:text-4xl text-[#2E1A08] mb-2">Delivering Joy Across Australia</h2>
+              <h2 className="font-serif text-3xl md:text-4xl text-[#2E1A08] mb-2">Delivering Joy Across Texas</h2>
               <p className="text-sm text-[#7A5030]/80 max-w-md mx-auto">
                 We partner with trusted pet transport services — your puppy arrives safely, wherever you are.
               </p>
@@ -537,6 +533,11 @@ export default function Home() {
                 <p className="text-sm text-foreground/70 leading-relaxed">
                   We're here to answer any questions about our puppies, breeding program, or the waitlist.
                 </p>
+                <address className="not-italic text-sm text-foreground/70 leading-relaxed">
+                  <span className="font-semibold text-foreground">HILLS</span><br />
+                  2202 S Cockrell Hill Rd<br />
+                  Dallas, TX 75211
+                </address>
                 <div className="flex gap-3 pt-1">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary"><ShieldCheck className="w-5 h-5" /></div>
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary"><Heart className="w-5 h-5" /></div>

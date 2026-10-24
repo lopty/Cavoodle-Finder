@@ -115,19 +115,21 @@ export function Footer() {
           
           {/* Locations Col */}
           <div>
-            <h4 className="font-serif text-xl font-bold mb-6 text-secondary">Locations Served</h4>
+            <h4 className="font-serif text-xl font-bold mb-6 text-secondary">Our Location</h4>
             <ul className="space-y-4 text-white/80">
-              <li className="font-medium">Sydney, NSW</li>
-              <li className="font-medium">Melbourne, VIC</li>
-              <li className="font-medium">Brisbane & Gold Coast, QLD</li>
-              <li className="font-medium">Perth, WA</li>
-              <li className="font-medium">Adelaide, SA</li>
+              <li className="font-medium">
+                <address className="not-italic">
+                  HILLS<br />
+                  2202 S Cockrell Hill Rd<br />
+                  Dallas, TX 75211
+                </address>
+              </li>
             </ul>
           </div>
         </div>
         
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-white/60 text-sm">
-          <p>&copy; {new Date().getFullYear()} Pure Cavoodles Australia. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Pure Cavoodles Texas. All rights reserved.</p>
         </div>
       </div>
     </footer>

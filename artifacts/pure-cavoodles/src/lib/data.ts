@@ -44,7 +44,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "8 weeks",
     status: "Available",
     description: "Biscuit is a sweet and playful F1 Cavoodle with a gorgeous apricot coat. He loves to cuddle and is already well-socialized with children and other pets.",
-    imageUrl: "/puppy-plants.webp",
+    imageUrl: "/client-puppy-apricot.png",
   },
   {
     id: "2",
@@ -56,7 +56,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "9 weeks",
     status: "Available",
     description: "Honey has the most gorgeous red and white curls. She's a gentle soul who enjoys quiet naps in the sun and gentle play with her siblings.",
-    imageUrl: "/puppy-redwhite.webp",
+    imageUrl: "/client-puppy-white-tan.png",
   },
   {
     id: "3",
@@ -68,7 +68,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "10 weeks",
     status: "Available",
     description: "Milo is full of energy and ready for his forever home. His rich ruby red coat and playful personality make him an irresistible companion.",
-    imageUrl: "/real-puppy-6.png",
+    imageUrl: "/client-puppy-red-couch.png",
   },
   {
     id: "4",
@@ -80,7 +80,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "8 weeks",
     status: "Available",
     description: "Megan is an absolute sweetheart with the most beautiful golden and white coat. She's confident, curious, and loves meeting new people.",
-    imageUrl: "/puppy-bow.webp",
+    imageUrl: "/client-puppy-tricolor.png",
   },
   {
     id: "5",
@@ -92,7 +92,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "9 weeks",
     status: "Available",
     description: "Rusty has a big personality packed into a tiny body. He's a cheeky little pup who loves exploring, cuddles, and showing off his adorable tongue.",
-    imageUrl: "/puppy-tongue.webp",
+    imageUrl: "/client-puppy-red-couch.png",
   },
   {
     id: "6",
@@ -104,7 +104,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "7 weeks",
     status: "Available",
     description: "Sandy is a stunning jet-black Cavoodle with the most soulful eyes. She's calm, loving, and utterly unique — rare black coats like hers are highly sought after.",
-    imageUrl: "/real-puppy-7.png",
+    imageUrl: "/client-puppy-black-white.png",
   },
   {
     id: "7",
@@ -116,7 +116,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "8 weeks",
     status: "Available",
     description: "Teddy is a rare silver-grey Cavoodle with the most beautiful curly coat. He's calm, affectionate, and loves nothing more than lounging at your feet.",
-    imageUrl: "/real-puppy-8.png",
+    imageUrl: "/client-puppy-merle.png",
   },
   {
     id: "8",
@@ -128,7 +128,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "9 weeks",
     status: "Available",
     description: "Rosie is a gorgeous chocolate Cavoodle who loves the outdoors. She's confident, playful, and brilliant with children of all ages.",
-    imageUrl: "/real-puppy-10.png",
+    imageUrl: "/client-puppy-chocolate.png",
   },
   {
     id: "9",
@@ -140,7 +140,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "10 weeks",
     status: "Available",
     description: "Charlie is the most laid-back boy in the litter — already perfectly settled and happy to snooze the day away. A dream puppy for any home.",
-    imageUrl: "/real-puppy-9.png",
+    imageUrl: "/client-puppy-white.png",
   },
   {
     id: "10",
@@ -152,7 +152,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "8 weeks",
     status: "Available",
     description: "Luna has a stunning golden fleece coat that's practically non-shedding. She's a quiet, gentle girl who loves laps and long cuddles.",
-    imageUrl: "/real-puppy-1.png",
+    imageUrl: "/client-puppy-apricot.png",
   },
   {
     id: "11",
@@ -164,7 +164,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "9 weeks",
     status: "Available",
     description: "Oscar is a bold, adventurous boy with the most striking apricot coat. He loves to explore and will keep the whole family entertained.",
-    imageUrl: "/real-puppy-2.png",
+    imageUrl: "/client-puppy-apricot.png",
   },
   {
     id: "12",
@@ -176,7 +176,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "7 weeks",
     status: "Available",
     description: "Bella has the most gorgeous deep ruby red curls. She's playful in bursts but happy to snuggle up on the couch for hours.",
-    imageUrl: "/real-puppy-3.png",
+    imageUrl: "/client-puppy-sable.png",
   },
   {
     id: "13",
@@ -188,7 +188,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "10 weeks",
     status: "Available",
     description: "Cooper is a social butterfly with a beautiful red and white parti coat. His warm personality and wagging tail will brighten up any household.",
-    imageUrl: "/real-puppy-4.png",
+    imageUrl: "/client-puppy-tricolor.png",
   },
   {
     id: "14",
@@ -200,7 +200,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "8 weeks",
     status: "Available",
     description: "Daisy is a laid-back, gentle girl with a striking white and tan parti coat. Her golden cream coat is soft as a cloud and practically non-shedding.",
-    imageUrl: "/real-puppy-5.png",
+    imageUrl: "/client-puppy-white-tan.png",
   },
   {
     id: "15",
@@ -212,7 +212,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     age: "9 weeks",
     status: "Available",
     description: "Finn is a chocolatey dreamboat with the kindest eyes. He's easy-going, adores children, and has already won the hearts of everyone he's met.",
-    imageUrl: "/puppy-brown.webp",
+    imageUrl: "/client-puppy-chocolate.png",
   },
 ];
 
@@ -238,6 +238,25 @@ export function useSettings() {
   return { settings, saveSettings };
 }
 
+// Refresh bundled prototype photos while preserving saved listing edits and uploads.
+const LEGACY_PUPPY_IMAGES: Record<string, string> = {
+  "/puppy-plants.webp": "/client-puppy-apricot.png",
+  "/puppy-redwhite.webp": "/client-puppy-white-tan.png",
+  "/real-puppy-6.png": "/client-puppy-red-couch.png",
+  "/puppy-bow.webp": "/client-puppy-tricolor.png",
+  "/puppy-tongue.webp": "/client-puppy-red-couch.png",
+  "/real-puppy-7.png": "/client-puppy-black-white.png",
+  "/real-puppy-8.png": "/client-puppy-merle.png",
+  "/real-puppy-10.png": "/client-puppy-chocolate.png",
+  "/real-puppy-9.png": "/client-puppy-white.png",
+  "/real-puppy-1.png": "/client-puppy-apricot.png",
+  "/real-puppy-2.png": "/client-puppy-apricot.png",
+  "/real-puppy-3.png": "/client-puppy-sable.png",
+  "/real-puppy-4.png": "/client-puppy-tricolor.png",
+  "/real-puppy-5.png": "/client-puppy-white-tan.png",
+  "/puppy-brown.webp": "/client-puppy-chocolate.png"
+};
+
 const PUPPIES_KEY = "purecavoodles_puppies_v7";
 
 export function usePuppies() {
@@ -246,7 +265,14 @@ export function usePuppies() {
       const stored = localStorage.getItem(PUPPIES_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const refreshed = parsed.map((puppy: Puppy) => ({
+            ...puppy,
+            imageUrl: LEGACY_PUPPY_IMAGES[puppy.imageUrl] ?? puppy.imageUrl,
+          }));
+          localStorage.setItem(PUPPIES_KEY, JSON.stringify(refreshed));
+          return refreshed;
+        }
       }
     } catch (e) {
       console.error("Failed to load puppies", e);
