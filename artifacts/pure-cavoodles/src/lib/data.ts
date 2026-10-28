@@ -40,7 +40,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     breed: "F1 Cavoodle",
     gender: "Male",
     color: "Apricot",
-    price: 4500,
+    price: 500,
     age: "8 weeks",
     status: "Available",
     description: "Biscuit is a sweet and playful F1 Cavoodle with a gorgeous apricot coat. He loves to cuddle and is already well-socialized with children and other pets.",
@@ -52,7 +52,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     breed: "F1b Cavoodle",
     gender: "Female",
     color: "Red & White",
-    price: 5500,
+    price: 550,
     age: "9 weeks",
     status: "Available",
     description: "Honey has the most gorgeous red and white curls. She's a gentle soul who enjoys quiet naps in the sun and gentle play with her siblings.",
@@ -64,7 +64,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     breed: "F1 Cavoodle",
     gender: "Male",
     color: "Ruby Red",
-    price: 4500,
+    price: 510,
     age: "10 weeks",
     status: "Available",
     description: "Milo is full of energy and ready for his forever home. His rich ruby red coat and playful personality make him an irresistible companion.",
@@ -76,7 +76,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     breed: "F1b Cavoodle",
     gender: "Male",
     color: "Apricot & White",
-    price: 5000,
+    price: 535,
     age: "8 weeks",
     status: "Available",
     description: "Jerry is an adorable apricot and white puppy with a soft, fluffy coat. He is a lovely little companion ready to meet his new family.",
@@ -88,7 +88,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     breed: "F1 Cavoodle",
     gender: "Male",
     color: "Black & White",
-    price: 4800,
+    price: 520,
     age: "8 weeks",
     status: "Available",
     description: "Jules is an adorable black and white puppy with a soft, fluffy coat. He is a lovely little companion ready to meet his new family.",
@@ -100,7 +100,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     breed: "F1b Cavoodle",
     gender: "Male",
     color: "Silver & Grey",
-    price: 5200,
+    price: 545,
     age: "8 weeks",
     status: "Available",
     description: "Teddy is a rare silver-grey Cavoodle with the most beautiful curly coat. He's calm, affectionate, and loves nothing more than lounging at your feet.",
@@ -112,7 +112,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     breed: "F1 Cavoodle",
     gender: "Female",
     color: "Chocolate",
-    price: 4700,
+    price: 515,
     age: "6 weeks",
     status: "Available",
     description: "Mary is an adorable chocolate puppy with a soft, fluffy coat and beautiful eyes. She is a lovely little companion ready to meet her new family.",
@@ -124,7 +124,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     breed: "F1 Cavoodle",
     gender: "Male",
     color: "Golden & Cream",
-    price: 4300,
+    price: 505,
     age: "7 weeks",
     status: "Available",
     description: "Brandon is an adorable golden and cream puppy with a soft, fluffy coat. He's a lovely little companion ready to meet his new family.",
@@ -136,7 +136,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     breed: "F1b Cavoodle",
     gender: "Female",
     color: "Ruby Red",
-    price: 5300,
+    price: 540,
     age: "7 weeks",
     status: "Available",
     description: "Bella has the most gorgeous deep ruby red curls. She's playful in bursts but happy to snuggle up on the couch for hours.",
@@ -148,7 +148,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     breed: "F1 Cavoodle",
     gender: "Male",
     color: "Chocolate & White",
-    price: 4400,
+    price: 525,
     age: "8 weeks",
     status: "Available",
     description: "Tom is a sweet chocolate and white puppy with a beautiful fluffy coat. He's a lovely little companion ready to meet his new family.",
@@ -160,7 +160,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     breed: "F1b Cavoodle",
     gender: "Female",
     color: "White & Tan",
-    price: 5100,
+    price: 530,
     age: "8 weeks",
     status: "Available",
     description: "Daisy is a laid-back, gentle girl with a striking white and tan parti coat. Her golden cream coat is soft as a cloud and practically non-shedding.",
@@ -172,7 +172,7 @@ const DEFAULT_PUPPIES: Puppy[] = [
     breed: "F1 Cavoodle",
     gender: "Male",
     color: "Black & White",
-    price: 4500,
+    price: 548,
     age: "9 weeks",
     status: "Available",
     description: "James is a lovely black and white puppy with a soft, fluffy coat. He is a sweet little companion ready to meet his new family.",
@@ -242,6 +242,8 @@ export function usePuppies() {
         if (Array.isArray(parsed) && parsed.length > 0) {
           const refreshed = validUniquePuppies(parsed.map((puppy: Puppy) => {
             const updatedListing = DEFAULT_PUPPIES.find((listing) => listing.id === puppy.id);
+            // Replace the previous prototype prices in saved listings as well.
+            const price = puppy.price > 550 ? (updatedListing?.price ?? 525) : puppy.price;
             if (updatedListing && (
               (puppy.id === "13" && puppy.name === "Cooper") ||
               (puppy.id === "9" && puppy.name === "Charlie") ||
@@ -250,12 +252,13 @@ export function usePuppies() {
               (puppy.id === "8" && puppy.name === "Rosie") ||
               (puppy.id === "15" && puppy.name === "Finn")
             )) {
-              return { ...puppy, name: updatedListing.name, gender: updatedListing.gender,
+              return { ...puppy, price, name: updatedListing.name, gender: updatedListing.gender,
                 age: updatedListing.age, color: updatedListing.color,
                 description: updatedListing.description, imageUrl: updatedListing.imageUrl };
             }
             return ({
             ...puppy,
+            price,
             imageUrl: puppy.id === "2" && ["/puppy-redwhite.webp", "/client-puppy-white-tan.png"].includes(puppy.imageUrl)
               ? "/client-puppy-honey.png"
               : LEGACY_PUPPY_IMAGES[puppy.imageUrl] ?? puppy.imageUrl,
